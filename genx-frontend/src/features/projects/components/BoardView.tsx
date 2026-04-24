@@ -22,9 +22,8 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { priorityConfig } from '@/mock'
-import { Clock, ListTodo, Calendar, Briefcase, User, Plus, Tag } from 'lucide-react'
+import { Calendar, Briefcase, Plus, Tag } from 'lucide-react'
 import {
-    Badge,
     Tooltip,
     TooltipContent,
     TooltipTrigger,
@@ -34,7 +33,7 @@ import type { Task, StatusType } from '@/types'
 import { createPortal } from 'react-dom'
 import { tasksApi } from '@/api/tasks'
 import { useToast } from '@/components/ui/use-toast'
-import { cn, formatDate, formatHoursMinutes, getInitials, isOverdue, getErrorMessage } from '@/lib/utils'
+import { cn, formatDate, formatHoursMinutes, isOverdue, getErrorMessage } from '@/lib/utils'
 
 interface BoardViewProps {
     projectId: string
