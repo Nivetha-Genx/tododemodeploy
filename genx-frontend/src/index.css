@@ -1,0 +1,449 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes shrink {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes timer-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(79, 70, 229, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+@keyframes timer-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    filter: blur(10px);
+  }
+
+  50% {
+    opacity: 0.7;
+    filter: blur(15px);
+  }
+}
+
+@keyframes timer-glow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: blur(8px);
+  }
+
+  50% {
+    opacity: 0.8;
+    filter: blur(12px);
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 243 75% 59%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 243 75% 59%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Glass-morphism utilities */
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-[10px] border border-white/20 shadow-glass rounded-lg;
+  }
+
+  .glass-card-dark {
+    @apply bg-slate-900/80 backdrop-blur-[10px] border border-slate-700/50 shadow-glass rounded-lg;
+  }
+
+  /* Status badges */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-backlog {
+    @apply bg-status-backlog-light text-status-backlog-dark;
+  }
+
+  .status-todo {
+    @apply bg-status-todo-light text-status-todo-dark;
+  }
+
+  .status-in-progress {
+    @apply bg-status-inProgress-light text-status-inProgress-dark;
+  }
+
+  .status-review {
+    @apply bg-status-review-light text-status-review-dark;
+  }
+
+  .status-blocked {
+    @apply bg-status-blocked-light text-status-blocked-dark;
+  }
+
+  .status-done {
+    @apply bg-status-done-light text-status-done-dark;
+  }
+
+  /* Priority badges */
+  .priority-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  .priority-low {
+    @apply bg-gray-100 text-gray-700;
+  }
+
+  .priority-medium {
+    @apply bg-blue-100 text-blue-700;
+  }
+
+  .priority-high {
+    @apply bg-amber-100 text-amber-700;
+  }
+
+  .priority-critical {
+    @apply bg-red-100 text-red-700;
+  }
+
+  /* Task card */
+  .task-card {
+    @apply bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-shadow duration-200 cursor-pointer;
+  }
+
+  /* Kanban column */
+  .kanban-column {
+    @apply flex flex-col min-w-[300px] max-w-[300px] bg-gray-50 rounded-lg p-3;
+  }
+
+  /* Sidebar */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors;
+  }
+
+  .sidebar-item-active {
+    @apply bg-brand-600 text-white font-semibold hover:bg-brand-700 hover:text-white;
+  }
+}
+
+/* Scrollbar styling */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(203 213 225);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(148 163 184);
+  }
+
+  .animate-timer-active {
+    animation: timer-pulse 2.5s infinite ease-in-out;
+  }
+
+  .timer-glow-effect {
+    animation: timer-glow 3s infinite ease-in-out;
+  }
+}
+
+/* Remove number input spinners */
+.no-spinner[type="number"]::-webkit-inner-spin-button,
+.no-spinner[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.no-spinner[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* React Datepicker Overrides */
+.react-datepicker {
+  font-family: inherit;
+  border-color: hsl(var(--border));
+  border-radius: var(--radius);
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+}
+
+.react-datepicker__header {
+  background-color: hsl(var(--muted));
+  border-bottom-color: hsl(var(--border));
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: hsl(var(--foreground));
+}
+
+.react-datepicker__day {
+  color: hsl(var(--foreground));
+  border-radius: var(--radius);
+}
+
+.react-datepicker__day:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+}
+
+.react-datepicker__triangle {
+  display: none
+}
+
+/* React Toastify overrides */
+.Toastify__toast-container {
+  padding: 16px;
+  width: fit-content !important;
+  max-width: 800px !important;
+  pointer-events: none;
+}
+
+.Toastify__toast-container * {
+  pointer-events: auto;
+}
+
+.Toastify__toast {
+  width: fit-content !important;
+  min-width: 350px !important;
+  max-width: 750px !important;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  padding: 18px 24px !important;
+  border: 1px solid #e5e7eb;
+  min-height: 72px;
+  pointer-events: auto;
+}
+
+.Toastify__toast-body {
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+}
+
+.Toastify__progress-bar {
+  height: 3px;
+  bottom: 0;
+}
+
+.Toastify__progress-bar--success {
+  background: #22c55e !important;
+}
+
+.Toastify__progress-bar--error {
+  background: #ef4444 !important;
+  /* brighter red for white bg */
+}
+
+/* Ensure all variants stay white background */
+.Toastify__toast--success,
+.Toastify__toast--error,
+.Toastify__toast--warning,
+.Toastify__toast--info,
+.Toastify__toast--default {
+  background: #ffffff !important;
+}
+
+/* 
+ * UNIFIED QUILL STYLES
+ * Mirroring active editor's layout exactly.
+ */
+
+/* shared base rules */
+.ql-editor,
+.ql-editor-preview {
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: #374151 !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+
+/* vertical padding synchronization */
+.ql-editor {
+  padding: 4px 0 !important;
+}
+
+.ql-editor-preview {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ql-editor-preview p,
+.ql-editor p {
+  margin: 0 !important;
+}
+
+/* 
+ * RELIABLE LIST RENDERING
+ * Combining visibility (padding) with normal looks (outside position).
+ */
+
+.ql-editor-preview ul,
+.ql-editor-preview ol {
+  padding-left: 1.5rem !important;
+  /* Enough to keep markers visible inside overflow:hidden containers */
+  margin: 0.5rem 0 !important;
+}
+
+.ql-editor-preview li {
+  display: list-item !important;
+  list-style-position: outside !important;
+  /* Forces marker and text onto one row */
+  margin-bottom: 0.125rem !important;
+  padding-left: 0 !important;
+  /* Resetting li padding results in standard, "normal" spacing */
+}
+
+/* Fix for block elements inside li causing breaks (preview only) */
+.ql-editor-preview li>* {
+  display: inline !important;
+}
+
+/* Markers visibility */
+.ql-editor-preview ul li {
+  list-style-type: disc !important;
+}
+
+.ql-editor-preview ol li {
+  list-style-type: decimal !important;
+}
+
+/* typography restoration for preview */
+.ql-editor-preview b,
+.ql-editor-preview strong {
+  font-weight: 700 !important;
+}
+
+.ql-editor-preview i,
+.ql-editor-preview em {
+  font-style: italic !important;
+}
+
+.ql-editor-preview h1 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin: 0.75rem 0 0.25rem !important;
+  display: block !important;
+}
+
+.ql-editor-preview h2 {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  margin: 0.5rem 0 0.2rem !important;
+  display: block !important;
+}
+
+.ql-editor-preview h3 {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  margin: 0.4rem 0 0.15rem !important;
+  display: block !important;
+}
+
+.ql-editor-preview .ql-indent-1 {
+  margin-left: 1.5rem !important;
+}
+
+.ql-editor-preview .ql-indent-2 {
+  margin-left: 3rem !important;
+}
+
+.ql-editor-preview a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}

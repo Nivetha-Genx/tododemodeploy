@@ -1,0 +1,5 @@
+export { LoginPage } from './LoginPage'
+export * from './ChangePasswordPage'
+export { ForgotPasswordPage } from './ForgotPasswordPage'
+export { OtpVerificationPage } from './OtpVerificationPage'
+export { ResetPasswordPage } from './ResetPasswordPage'
