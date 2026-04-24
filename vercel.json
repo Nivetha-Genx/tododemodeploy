@@ -1,4 +1,6 @@
 {
+  "buildCommand": "cd genx-frontend && npm install && npm run build",
+  "outputDirectory": "genx-frontend/dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
