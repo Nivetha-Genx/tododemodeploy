@@ -219,8 +219,9 @@ export function TeamBoardPage() {
     }
 
     return (
-        <div className="space-y-6 h-full flex flex-col min-h-0">
-            <div className="flex flex-col gap-4 shrink-0">
+        <div className="h-full flex flex-col min-h-0">
+            {/* Fixed Header & Filters */}
+            <div className="space-y-4 pb-4 bg-gray-50/50 backdrop-blur-sm z-20 shrink-0">
                 <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
                         <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -267,7 +268,7 @@ export function TeamBoardPage() {
                             placeholder="Search tasks..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 bg-white w-full"
+                            className="pl-9 bg-white w-full h-9 text-sm"
                         />
                     </div>
                     <div className="lg:col-span-8 grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full">
@@ -544,70 +545,71 @@ export function TeamBoardPage() {
                         )}
                     </div>
                 </div>
-
-                {/* Statistics Cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-                    <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
-                        <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
-                            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                                <ClipboardList className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Total Tasks</p>
-                                <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.total_tasks}</h3>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
-                        <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
-                            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-green-50 flex items-center justify-center shrink-0">
-                                <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6 text-green-600" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Completed Tasks</p>
-                                <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.completed_tasks}</h3>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
-                        <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
-                            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-red-50 flex items-center justify-center shrink-0">
-                                <AlertCircle className="w-4 h-4 sm:w-6 sm:h-6 text-red-600" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Overdue Tasks</p>
-                                <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.overdue_tasks}</h3>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
-                        <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
-                            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                                <Clock className="w-4 h-4 sm:w-6 sm:h-6 text-amber-600" />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Total logged hours</p>
-                                <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{formatHoursMinutes(stats.total_time_logged_hours)}</h3>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                </div>
             </div>
 
             {isLoading ? (
-                <PageSkeleton />
+                <div className="flex-1">
+                    <PageSkeleton />
+                </div>
             ) : (
-                <div className="flex-1 flex flex-col min-h-0 px-1">
+                <div className="flex-1 overflow-y-auto min-h-0 px-1 pt-4">
+                    {/* Statistics Cards - Now inside scrollable area */}
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-6">
+                        <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
+                            <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                                    <ClipboardList className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Total Tasks</p>
+                                    <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.total_tasks}</h3>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
+                            <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-green-50 flex items-center justify-center shrink-0">
+                                    <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6 text-green-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Completed Tasks</p>
+                                    <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.completed_tasks}</h3>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
+                            <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+                                    <AlertCircle className="w-4 h-4 sm:w-6 sm:h-6 text-red-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Overdue Tasks</p>
+                                    <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{stats.overdue_tasks}</h3>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="bg-white border-none shadow-sm hover:shadow-md transition-all duration-200">
+                            <CardContent className="p-2 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-4 text-center sm:text-left">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                                    <Clock className="w-4 h-4 sm:w-6 sm:h-6 text-amber-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-[10px] sm:text-sm font-medium text-gray-500 truncate">Total logged hours</p>
+                                    <h3 className="text-sm sm:text-2xl font-bold text-gray-900">{formatHoursMinutes(stats.total_time_logged_hours)}</h3>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
                     {view === 'board' ? (
-                        <div className="flex-1 h-full min-h-0">
+                        <div className="flex-1 min-h-[500px]">
                             <BoardView tasks={tasks} projectId="" />
                         </div>
                     ) : (
-                        <div className="flex-1 overflow-y-auto min-h-0 pb-10">
+                        <div className="pb-10">
                             {tasks.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-20 text-center">
                                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">

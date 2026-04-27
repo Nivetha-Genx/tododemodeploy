@@ -163,18 +163,21 @@ export function ProjectsListPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                        <Briefcase className="w-6 h-6 text-brand-600" />
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
+                        <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600" />
                         Projects
                     </h1>
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-sm text-gray-500 mt-0.5 sm:mt-1">
                         Manage your organization's projects
                     </p>
                 </div>
                 {(can('projects.create') || isAdmin(getAccessLevel(user)) || isTeamLead(getAccessLevel(user))) && (
-                    <Button onClick={() => openModal('createProject', { onSuccess: fetchProjects })}>
+                    <Button 
+                        onClick={() => openModal('createProject', { onSuccess: fetchProjects })}
+                        className="w-full sm:w-auto h-10 sm:h-auto"
+                    >
                         <Plus className="w-4 h-4 mr-2" />
                         New Project
                     </Button>
@@ -276,7 +279,7 @@ export function ProjectsListPage() {
                 )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {isLoading ? (
                     Array.from({ length: 6 }).map((_, i) => (
                         <ProjectCardSkeleton key={i} />

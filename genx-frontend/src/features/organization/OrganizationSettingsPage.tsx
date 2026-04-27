@@ -957,11 +957,11 @@ export function OrganizationSettingsPage() {
                                             <p className="font-bold text-sm md:text-base lg:text-lg text-gray-900 leading-tight">Report Recipients</p>
                                             <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium opacity-80">Choose who receives the daily report email.</p>
                                         </div>
-                                        <div className="flex flex-wrap gap-2.5 justify-start">
+                                        <div className="flex flex-row items-center gap-2 overflow-x-auto no-scrollbar pb-1 justify-start">
                                             {([
                                                 { label: 'Lead', roles: ['team_lead'] },
                                                 { label: 'Admin', roles: ['admin'] },
-                                                { label: 'Admin and Lead', roles: ['admin', 'team_lead'] },
+                                                { label: 'Both', roles: ['admin', 'team_lead'] },
                                             ] as const).map(option => {
                                                 const emailsForOption = orgMembers
                                                     .filter(m => (Array.from(option.roles) as string[]).includes(m.role))
@@ -983,7 +983,7 @@ export function OrganizationSettingsPage() {
                                                         key={option.label}
                                                         onClick={handleSelect}
                                                         className={cn(
-                                                            "px-4 sm:px-5 py-1 sm:py-1.5 rounded-full border-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95",
+                                                            "px-3 sm:px-5 py-1.5 rounded-full border-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 whitespace-nowrap shrink-0",
                                                             isSelected
                                                                 ? "bg-brand-600 border-brand-600 text-white shadow-md shadow-brand-200"
                                                                 : "bg-white border-gray-100 text-gray-500 hover:border-brand-200 hover:text-brand-600"
@@ -1088,7 +1088,7 @@ export function OrganizationSettingsPage() {
                                         onChange={(e) => setSettings({ ...settings, lock_logs_after_days: e.target.value === '' ? 0 : Number(e.target.value) })}
                                         className={cn(inputClassName, "h-11 sm:h-13 text-sm font-bold tabular-nums shadow-sm bg-white border-gray-100 hover:border-gray-200 focus:bg-white")}
                                     />
-                                    <p className="text-[11px]text-xs sm:text-sm text-gray-500 font-medium">Prevent editing time logs after this interval.</p>
+                                    <p className="text-xs sm:text-sm text-gray-500 font-medium">Prevent editing time logs after this interval.</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -1106,7 +1106,7 @@ export function OrganizationSettingsPage() {
                             <CardDescription className="text-xs sm:text-sm">Define how work progress and utilization are measured.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 md:p-6 lg:p-8 space-y-8 md:space-y-8 lg:space-y-10">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
                                 <div className="space-y-4 md:space-y-5 lg:space-y-6">
                                     <div className="flex items-center justify-between p-4 md:p-4.5 lg:p-5 rounded-xl md:rounded-[1.25rem] lg:rounded-2xl bg-gray-50/50 border border-gray-100">
                                         <div className="space-y-1">

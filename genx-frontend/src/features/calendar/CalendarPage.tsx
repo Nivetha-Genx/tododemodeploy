@@ -108,8 +108,8 @@ export function CalendarPage() {
     }
 
     return (
-        <div className="space-y-4 sm:space-y-6 h-full flex flex-col">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+        <div className="space-y-4 sm:space-y-6 pb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600" />
@@ -131,8 +131,8 @@ export function CalendarPage() {
                 </div>
             </div>
 
-            <Card className="flex-1 flex flex-col overflow-hidden">
-                <CardContent className="p-0 flex-1 flex flex-col">
+            <Card className="overflow-hidden">
+                <CardContent className="p-0">
                     {/* Weekday headers */}
                     <div className="grid grid-cols-7 border-b border-gray-200">
                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
@@ -143,7 +143,7 @@ export function CalendarPage() {
                     </div>
 
                     {/* Calendar grid */}
-                    <div className="grid grid-cols-7 flex-1 auto-rows-fr">
+                    <div className="grid grid-cols-7 auto-rows-fr min-h-[400px] sm:min-h-[600px]">
                         {paddingDays.map(day => (
                             <div key={`padding-${day}`} className="bg-gray-50/50 border-b border-r border-gray-100 p-1 sm:p-2" />
                         ))}
@@ -172,7 +172,7 @@ export function CalendarPage() {
                                         </span>
                                         {dayTasks.length > 0 && (
                                             <span className="text-[8px] sm:text-xs text-gray-400 font-medium">
-                                                {dayTasks.length} <span className="hidden sm:inline">tasks</span>
+                                                {dayTasks.length} <span className="hidden lg:inline">task</span>
                                             </span>
                                         )}
                                     </div>

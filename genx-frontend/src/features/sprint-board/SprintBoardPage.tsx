@@ -9,7 +9,6 @@ import { sprintsApi } from '@/api/sprints'
 import { priorityConfig } from '@/mock'
 import type { Task, Sprint, User, Project } from '@/types'
 import {
-    ScrollArea,
     Select,
     SelectTrigger,
     SelectValue,
@@ -303,8 +302,9 @@ export function SprintBoardPage() {
     }
 
     return (
-        <div className="space-y-6 h-full flex flex-col">
-            <div className="flex flex-col gap-6 shrink-0">
+        <div className="h-full flex flex-col min-h-0">
+            {/* Fixed Header & Filters */}
+            <div className="space-y-4 pb-4 bg-gray-50/50 backdrop-blur-sm z-20 shrink-0 -mx-4 md:-mx-6 px-4 md:px-6 py-2 border-b border-gray-100">
                 <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
@@ -326,7 +326,7 @@ export function SprintBoardPage() {
                         <p className="text-xs sm:text-sm text-gray-500 mt-1">
                             {selectedSprint
                                 ? `${selectedSprint.name} (${formatDate(selectedSprint.start_date)} – ${formatDate(selectedSprint.end_date)})`
-                                : 'Select a sprint'}
+                                : 'Select a sprint to view and manage tasks'}
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full xl:w-auto">
@@ -484,7 +484,8 @@ export function SprintBoardPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-4">
+                {/* Filters Bar - Now inside fixed header */}
+                <div className="flex flex-col lg:flex-row gap-4 mt-4">
                     <div className="relative flex-1 w-full">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <Input
@@ -592,263 +593,218 @@ export function SprintBoardPage() {
                                 ))}
                             </SelectContent>
                         </Select>
-                    <Popover open={projectPopoverOpen} onOpenChange={setProjectPopoverOpen}>
-                        <PopoverTrigger asChild>
-                            <Button variant="outline" className="w-full bg-white h-10 sm:h-9 text-sm justify-between font-normal px-2 col-span-2 sm:col-span-1 lg:min-w-[140px]">
-                                <div className="flex items-center gap-2 truncate">
-                                    {projectFilter !== 'all' ? (
-                                        (() => {
-                                            const project = projects.find(p => p.id === projectFilter);
-                                            if (!project) return <span className="truncate">Project</span>;
-                                            const ProjectIcon = getRandomIcon(project.id);
+                        <Popover open={projectPopoverOpen} onOpenChange={setProjectPopoverOpen}>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="w-full bg-white h-10 sm:h-9 text-sm justify-between font-normal px-2 col-span-2 sm:col-span-1 lg:min-w-[140px]">
+                                    <div className="flex items-center gap-2 truncate">
+                                        {projectFilter !== 'all' ? (
+                                            (() => {
+                                                const project = projects.find(p => p.id === projectFilter);
+                                                if (!project) return <span className="truncate">Project</span>;
+                                                const ProjectIcon = getRandomIcon(project.id);
+                                                return (
+                                                    <>
+                                                        <div className={cn(
+                                                            "w-5 h-5 rounded-md flex items-center justify-center overflow-hidden shrink-0",
+                                                            project.icon ? "bg-gray-100" : getRandomColor(project.id)
+                                                        )}>
+                                                            {project.icon ? (
+                                                                <img src={project.icon} alt={project.name} className="w-full h-full object-cover" />
+                                                            ) : (
+                                                                <ProjectIcon className="w-3.5 h-3.5" />
+                                                            )}
+                                                        </div>
+                                                        <span className="truncate">{project.name}</span>
+                                                    </>
+                                                );
+                                            })()
+                                        ) : (
+                                            <>
+                                                <LayoutGrid className="w-4 h-4 text-gray-400" />
+                                                <span className="truncate">All Projects</span>
+                                            </>
+                                        )}
+                                    </div>
+                                    <ChevronDown className={cn("ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform", projectPopoverOpen && "rotate-180")} />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[220px] p-1 rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 bg-white ring-1 ring-black/5" align="start">
+                                <div className="p-2 border-b border-gray-100 mb-1">
+                                    <div className="relative">
+                                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                                        <Input
+                                            placeholder="Search projects..."
+                                            value={projectSearchQuery}
+                                            onChange={(e) => setProjectSearchQuery(e.target.value)}
+                                            className="pl-8 h-8 text-[13px] bg-gray-50/50 border-gray-100 focus-visible:ring-brand-500/20 rounded-xl"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="max-h-[300px] overflow-y-auto px-1 pb-1">
+                                    <button
+                                        onClick={() => {
+                                            setProjectFilter('all')
+                                            setProjectPopoverOpen(false)
+                                        }}
+                                        className={cn(
+                                            "w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors mb-0.5",
+                                            projectFilter === 'all' ? "bg-brand-50 text-brand-700 font-medium" : "hover:bg-gray-50/80"
+                                        )}
+                                    >
+                                        <LayoutGrid className="w-4 h-4 text-gray-400" />
+                                        <span>All Projects</span>
+                                    </button>
+                                    {projects
+                                        .filter(p => p.name.toLowerCase().includes(projectSearchQuery.toLowerCase().trim()))
+                                        .map((p) => {
+                                            const colorClass = getRandomColor(p.id)
+                                            const ProjectIcon = getRandomIcon(p.id)
                                             return (
-                                                <>
+                                                <button
+                                                    key={p.id}
+                                                    onClick={() => {
+                                                        setProjectFilter(p.id)
+                                                        setProjectPopoverOpen(false)
+                                                    }}
+                                                    className={cn(
+                                                        "w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors mb-0.5",
+                                                        projectFilter === p.id ? "bg-brand-50 text-brand-700 font-medium" : "hover:bg-gray-50/80"
+                                                    )}
+                                                >
                                                     <div className={cn(
-                                                        "w-5 h-5 rounded-md flex items-center justify-center overflow-hidden shrink-0",
-                                                        project.icon ? "bg-gray-100" : getRandomColor(project.id)
+                                                        "w-5 h-5 rounded flex items-center justify-center overflow-hidden shrink-0",
+                                                        p.icon ? "bg-gray-100" : colorClass
                                                     )}>
-                                                        {project.icon ? (
-                                                            <img src={project.icon} alt={project.name} className="w-full h-full object-cover" />
+                                                        {p.icon ? (
+                                                            <img src={p.icon} alt={p.name} className="w-full h-full object-cover" />
                                                         ) : (
-                                                            <ProjectIcon className="w-3.5 h-3.5" />
+                                                            <ProjectIcon className="w-3 h-3" />
                                                         )}
                                                     </div>
-                                                    <span className="truncate">{project.name}</span>
-                                                </>
-                                            );
-                                        })()
-                                    ) : (
-                                        <>
-                                            <LayoutGrid className="w-4 h-4 text-gray-400" />
-                                            <span className="truncate">All Projects</span>
-                                        </>
-                                    )}
+                                                    <span className="truncate">{p.name}</span>
+                                                </button>
+                                            )
+                                        })}
                                 </div>
-                                <ChevronDown className={cn("ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform", projectPopoverOpen && "rotate-180")} />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[220px] p-1 rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 bg-white ring-1 ring-black/5" align="start">
-                            <div className="p-2 border-b border-gray-100 mb-1">
-                                <div className="relative">
-                                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                                    <Input
-                                        placeholder="Search projects..."
-                                        value={projectSearchQuery}
-                                        onChange={(e) => setProjectSearchQuery(e.target.value)}
-                                        className="pl-8 h-8 text-[13px] bg-gray-50/50 border-gray-100 focus-visible:ring-brand-500/20 rounded-xl"
-                                    />
-                                </div>
-                            </div>
-                            <div className="max-h-[300px] overflow-y-auto px-1 pb-1">
-                                <button
-                                    onClick={() => {
-                                        setProjectFilter('all')
-                                        setProjectPopoverOpen(false)
-                                    }}
-                                    className={cn(
-                                        "w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors mb-0.5",
-                                        projectFilter === 'all' ? "bg-brand-50 text-brand-700 font-medium" : "hover:bg-gray-50/80"
-                                    )}
-                                >
-                                    <LayoutGrid className="w-4 h-4 text-gray-400" />
-                                    <span>All Projects</span>
-                                </button>
-                                {projects
-                                    .filter(p => p.name.toLowerCase().includes(projectSearchQuery.toLowerCase().trim()))
-                                    .map((p) => {
-                                        const colorClass = getRandomColor(p.id)
-                                        const ProjectIcon = getRandomIcon(p.id)
-                                        return (
-                                            <button
-                                                key={p.id}
-                                                onClick={() => {
-                                                    setProjectFilter(p.id)
-                                                    setProjectPopoverOpen(false)
-                                                }}
-                                                className={cn(
-                                                    "w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors mb-0.5",
-                                                    projectFilter === p.id ? "bg-brand-50 text-brand-700 font-medium" : "hover:bg-gray-50/80"
-                                                )}
-                                            >
-                                                <div className={cn(
-                                                    "w-5 h-5 rounded flex items-center justify-center overflow-hidden shrink-0",
-                                                    p.icon ? "bg-gray-100" : colorClass
-                                                )}>
-                                                    {p.icon ? (
-                                                        <img src={p.icon} alt={p.name} className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <ProjectIcon className="w-3 h-3" />
-                                                    )}
-                                                </div>
-                                                <span className="truncate">{p.name}</span>
-                                            </button>
-                                        )
-                                    })}
-                            </div>
-                        </PopoverContent>
-                    </Popover>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                 </div>
             </div>
 
-            {isLoading || isSprintsLoading ? (
-                <PageSkeleton />
-            ) : tab === 'burndown' ? (
-                !selectedSprintId ? (
-                    <div className="flex-1 flex items-center justify-center text-gray-500">
-                        Select a sprint to view the burndown chart.
-                    </div>
-                ) : burndownData.length > 0 ? (
-                    <Card className="flex-1">
-                        <CardHeader className="py-3">
-                            <CardTitle className="text-base">Burndown</CardTitle>
-                        </CardHeader>
-                        <CardContent className="pt-0">
-                            <div className="h-[320px]">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={burndownData}>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                        <XAxis
-                                            dataKey="date"
-                                            tickFormatter={(v) =>
-                                                new Date(v).toLocaleDateString('en', {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                })
-                                            }
-                                            stroke="#9CA3AF"
-                                        />
-                                        <YAxis stroke="#9CA3AF" />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="remaining"
-                                            stroke="#6366F1"
-                                            strokeWidth={2}
-                                            dot={{ fill: '#6366F1' }}
-                                            name="Remaining"
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="ideal"
-                                            stroke="#9CA3AF"
-                                            strokeWidth={2}
-                                            strokeDasharray="5 5"
-                                            name="Ideal"
-                                        />
-                                    </LineChart>
-                                </ResponsiveContainer>
+            {/* Scrollable Content Area */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-y-auto px-1 pb-10 pt-4">
+                <div className="space-y-6">
+                    {isLoading || isSprintsLoading ? (
+                        <PageSkeleton />
+                    ) : tab === 'burndown' ? (
+                        !selectedSprintId ? (
+                            <div className="flex items-center justify-center text-gray-500 py-20">
+                                Select a sprint to view the burndown chart.
                             </div>
-                        </CardContent>
-                    </Card>
-                ) : (
-                    <div className="flex-1 flex items-center justify-center text-gray-500">
-                        No burndown data available for this sprint yet.
-                    </div>
-                )
-            ) : (
-                !selectedSprintId ? (
-                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gray-50/30 rounded-2xl border border-dashed border-gray-200 m-4">
-                        <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mb-4">
-                            <LayoutGrid className="w-8 h-8 text-brand-500" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Sprints Found</h3>
-                        <p className="text-sm text-gray-500 max-w-sm mb-6 leading-relaxed">
-                            {isUserAdmin
-                                ? "Get started by creating your first sprint to organize your tasks, set timelines, and track your team's progress effectively."
-                                : "There are currently no sprints scheduled. Please contact your administrator or project lead to plan a new sprint."}
-                        </p>
-                    </div>
-                ) : (
-                    <div className="flex-1 flex flex-col min-h-0">
-                        {view === 'board' ? (
-                            <BoardView tasks={tasks} projectId="" />
-                        ) : (
-                            <ScrollArea className="flex-1 bg-gray-50/50 rounded-xl border border-gray-100">
-                                <div className="space-y-3">
-                                    {tasks.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                                            <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                                                <List className="w-6 h-6 text-gray-400" />
-                                            </div>
-                                            <h4 className="text-base font-medium text-gray-900 mb-1">Sprint is Empty</h4>
-                                            <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
-                                                {isUserAdmin
-                                                    ? "There are currently no tasks assigned to this sprint. Add tasks or move them from the backlog to begin your progress."
-                                                    : "There are currently no tasks in this sprint. Please contact your administrator or project lead to assign tasks."}
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        tasks.map((task) => (
-                                            <TaskRowCard
-                                                key={task.id}
-                                                task={task}
-                                                onClick={() => {
-                                                    selectTask(task.id)
-                                                    openTaskDrawer(task.id)
-                                                }}
-                                            />
-                                        ))
-                                    )}
-                                </div>
-                            </ScrollArea>
-                        )}
-                        {pagination.last_page > 1 && (
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 pb-4">
-                                <p className="text-sm text-gray-500 hidden sm:block">
-                                    Showing page {pagination.current_page} of {pagination.last_page} ({pagination.total} total)
-                                </p>
-                                <div className="flex items-center gap-2 flex-wrap justify-center">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => fetchBoardData(pagination.current_page - 1)}
-                                        disabled={pagination.current_page === 1}
-                                        className="h-8"
-                                    >
-                                        Previous
-                                    </Button>
-                                    <div className="flex items-center gap-1">
-                                        {Array.from({ length: Math.min(4, pagination.last_page) }, (_, i) => {
-                                            let pageNum: number
-                                            if (pagination.last_page <= 4) {
-                                                pageNum = i + 1
-                                            } else if (pagination.current_page <= 2) {
-                                                pageNum = i + 1
-                                            } else if (pagination.current_page >= pagination.last_page - 1) {
-                                                pageNum = pagination.last_page - 3 + i
-                                            } else {
-                                                pageNum = pagination.current_page - 1 + i
-                                            }
-                                            return (
-                                                <Button
-                                                    key={pageNum}
-                                                    variant={pagination.current_page === pageNum ? 'default' : 'outline'}
-                                                    size="sm"
-                                                    onClick={() => fetchBoardData(pageNum)}
-                                                    className="h-8 w-8 p-0"
-                                                >
-                                                    {pageNum}
-                                                </Button>
-                                            )
-                                        })}
+                        ) : burndownData.length > 0 ? (
+                            <Card>
+                                <CardHeader className="py-3">
+                                    <CardTitle className="text-base">Burndown</CardTitle>
+                                </CardHeader>
+                                <CardContent className="pt-0">
+                                    <div className="h-[320px]">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <LineChart data={burndownData}>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                                                <XAxis
+                                                    dataKey="date"
+                                                    tickFormatter={(v) =>
+                                                        new Date(v).toLocaleDateString('en', {
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                        })
+                                                    }
+                                                    stroke="#9CA3AF"
+                                                />
+                                                <YAxis stroke="#9CA3AF" />
+                                                <Tooltip />
+                                                <Legend />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="remaining"
+                                                    stroke="#6366F1"
+                                                    strokeWidth={2}
+                                                    dot={{ fill: '#6366F1' }}
+                                                    name="Remaining"
+                                                />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="ideal"
+                                                    stroke="#9CA3AF"
+                                                    strokeWidth={2}
+                                                    strokeDasharray="5 5"
+                                                    name="Ideal"
+                                                />
+                                            </LineChart>
+                                        </ResponsiveContainer>
                                     </div>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => fetchBoardData(pagination.current_page + 1)}
-                                        disabled={pagination.current_page === pagination.last_page}
-                                        className="h-8"
-                                    >
-                                        Next
-                                    </Button>
-                                </div>
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            <div className="flex items-center justify-center text-gray-500 py-20">
+                                No burndown data available for this sprint yet.
                             </div>
-                        )}
+                        )
+                    ) : (
+                        !selectedSprintId ? (
+                            <div className="flex flex-col items-center justify-center p-8 text-center bg-gray-50/30 rounded-2xl border border-dashed border-gray-200 m-4">
+                                <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center mb-4">
+                                    <LayoutGrid className="w-8 h-8 text-brand-500" />
+                                </div>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Sprints Found</h3>
+                                <p className="text-sm text-gray-500 max-w-sm mb-6 leading-relaxed">
+                                    {isUserAdmin
+                                        ? "Get started by creating your first sprint to organize your tasks, set timelines, and track your team's progress effectively."
+                                        : "There are currently no sprints scheduled. Please contact your administrator or project lead to plan a new sprint."}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col">
+                                {view === 'board' ? (
+                                    <div className="min-h-[600px]">
+                                        <BoardView tasks={tasks} projectId="" />
+                                    </div>
+                                ) : (
+                                    <div className="bg-gray-50/50 rounded-xl border border-gray-100 p-2 sm:p-4">
+                                        <div className="space-y-3">
+                                            {tasks.length === 0 ? (
+                                                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                                                    <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
+                                                        <List className="w-6 h-6 text-gray-400" />
+                                                    </div>
+                                                    <h3 className="text-lg font-medium text-gray-900">No tasks found</h3>
+                                                    <p className="text-gray-500 mt-2 max-w-sm">
+                                                        Try adjusting your filters or search query.
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col gap-3">
+                                                    {tasks.map((task) => (
+                                                        <TaskRowCard
+                                                            key={task.id}
+                                                            task={task}
+                                                            onClick={() => {
+                                                                selectTask(task.id)
+                                                                openTaskDrawer(task.id)
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                )
-            )}
+                </div>
+
 
             <CreateSprintModal
                 open={createSprintOpen}

@@ -75,54 +75,58 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
     return (
         <div className="space-y-6">
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                                <ListTodo className="w-4 h-4" />
+                        <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                                    <ListTodo className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900">{totalTasks}</h3>
                             </div>
                             <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{totalTasks} Total</span>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900">{totalTasks}</h3>
-                        <p className="text-xs text-gray-500 mt-1">Total tasks in project</p>
+                        <p className="text-xs text-gray-500">Total tasks in project</p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="p-2 bg-green-50 text-green-600 rounded-lg">
-                                <CheckCircle2 className="w-4 h-4" />
+                        <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-green-50 text-green-600 rounded-lg">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900">{completedTasks}</h3>
                             </div>
                             <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded-full">{completionRate}%</span>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900">{completedTasks}</h3>
-                        <p className="text-xs text-gray-500 mt-1">Completed tasks</p>
+                        <p className="text-xs text-gray-500">Completed tasks</p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3 mb-1">
                             <div className="p-2 bg-red-50 text-red-600 rounded-lg">
                                 <AlertCircle className="w-4 h-4" />
                             </div>
+                            <h3 className="text-2xl font-bold text-gray-900">{overdueTasks}</h3>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900">{overdueTasks}</h3>
-                        <p className="text-xs text-gray-500 mt-1">Overdue tasks</p>
+                        <p className="text-xs text-gray-500">Overdue tasks</p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3 mb-1">
                             <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
                                 <Clock className="w-4 h-4" />
                             </div>
+                            <h3 className="text-2xl font-bold text-gray-900">{formatHours(totalEstimatedHours)}</h3>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900">{formatHours(totalEstimatedHours)}</h3>
-                        <p className="text-xs text-gray-500 mt-1">Total estimated hours</p>
+                        <p className="text-xs text-gray-500">Total estimated hours</p>
                     </CardContent>
                 </Card>
             </div>

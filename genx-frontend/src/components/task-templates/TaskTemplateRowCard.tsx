@@ -2,7 +2,7 @@ import { Clock, Briefcase, MoreHorizontal, Pencil, Trash2, Tag, Play } from 'luc
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui'
 import { priorityConfig } from '@/mock'
 import type { TaskTemplate } from '@/types'
-import { stripHtml} from '@/lib/utils'
+import { stripHtml } from '@/lib/utils'
 
 function formatHours(h: number | string | null | undefined): string {
     if (h == null || h === '') return ''
@@ -42,7 +42,7 @@ export function TaskTemplateRowCard({ template, onUseTemplate, onEdit, onDelete 
                     </div>
 
                     {/* Footer Actions & Meta */}
-                    <div className="flex flex-wrap items-center gap-3 mt-1">
+                    <div className="flex items-center flex-wrap gap-2 sm:gap-3 mt-2">
                         {onUseTemplate && (
                             <button
                                 onClick={(e) => {
@@ -50,28 +50,28 @@ export function TaskTemplateRowCard({ template, onUseTemplate, onEdit, onDelete 
                                     onUseTemplate();
                                 }}
                                 className="bg-brand-50 text-brand-700 border border-brand-200
-                                    px-4 py-1.5 rounded-full
-                                    text-[11px] font-black uppercase tracking-wider
+                                    px-3 py-1.5 rounded-full
+                                    text-[10px] sm:text-[11px] font-black uppercase tracking-wider
                                     flex items-center gap-2
                                     hover:bg-brand-100 hover:border-brand-300
                                     transition-all duration-200 shrink-0"
                             >
-                                <Play className="w-3 h-3" fill="currentColor" />
+                                <Play className="w-2.5 h-2.5 sm:w-3 h-3" fill="currentColor" />
                                 Quick Create
                             </button>
                         )}
 
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-400 text-xs font-semibold">
+                        <div className="flex items-center flex-wrap gap-2 text-slate-400 text-[10px] sm:text-xs font-semibold">
                             {template.project && (
-                                <div className="flex items-center gap-1.5 min-w-0 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100">
-                                    <Briefcase className="w-3.5 h-3.5 text-brand-400" />
-                                    <span className="max-w-[150px] truncate">{template.project.title}</span>
+                                <div className="flex items-center gap-1.5 min-w-0 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 shrink-0">
+                                    <Briefcase className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-400" />
+                                    <span className="max-w-[100px] sm:max-w-[150px] truncate">{template.project.title}</span>
                                 </div>
                             )}
                             
                             {(template.estimated_hours != null && template.estimated_hours !== '') && (
-                                <div className="flex items-center gap-1.5 whitespace-nowrap bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100">
-                                    <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                <div className="flex items-center gap-1.5 whitespace-nowrap bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 shrink-0">
+                                    <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-400" />
                                     <span>Est. {formatHours(template.estimated_hours)}</span>
                                 </div>
                             )}
@@ -79,55 +79,25 @@ export function TaskTemplateRowCard({ template, onUseTemplate, onEdit, onDelete 
                     </div>
                 </div>
 
-                {/* Desktop Action Column (Centered Right) */}
-                <div className="hidden sm:flex flex-col items-end justify-center gap-3 pl-6 border-l border-slate-100 shrink-0 min-h-[70px]">
+                {/* Action Column (Centered Right) */}
+                <div className="flex flex-col items-end justify-center gap-2 sm:gap-3 pl-4 sm:pl-6 border-l border-slate-100 shrink-0 min-h-[60px] sm:min-h-[70px]">
                     {priority && (
                         <div 
-                            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black whitespace-nowrap border border-black/5 shadow-sm"
+                            className="flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-bold sm:font-black whitespace-nowrap border border-black/5 shadow-sm"
                             style={{ backgroundColor: priority.bgColor, color: priority.color }}
                         >
-                            <Tag className="w-3 h-3" />
+                            <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             {priority.label}
                         </div>
                     )}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
                             <Button
-
                                 variant="ghost"
                                 size="icon"
-                                className="h-8 w-8 shrink-0 hover:bg-slate-100 rounded-full transition-all duration-200 shadow-sm border border-slate-100 bg-slate-80"
+                                className="h-7 w-7 sm:h-8 sm:w-8 shrink-0 hover:bg-slate-100 rounded-full transition-all duration-200 shadow-sm border border-slate-100 bg-slate-50/50"
                             >
-                                <MoreHorizontal className="w-4.5 h-4.5 text-slate-400" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="rounded-xl border-gray-100 shadow-xl">
-                            {onEdit && (
-                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onEdit(); }} className="rounded-lg gap-2 focus:bg-brand-50 focus:text-brand-600 cursor-pointer">
-                                    <Pencil className="w-4 h-4" />
-                                    <span>Edit template</span>
-                                </DropdownMenuItem>
-                            )}
-                            {onDelete && (
-                                <DropdownMenuItem className="text-red-600 rounded-full gap-2 focus:bg-red-50 focus:text-red-600 cursor-pointer" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
-                                    <Trash2 className="w-4 h-4" />
-                                    <span>Delete</span>
-                                </DropdownMenuItem>
-                            )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-
-                {/* Mobile Menu Icon (Top Right absolute) */}
-                <div className="sm:hidden absolute top-3 right-3">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-7 w-7 shrink-0 hover:bg-slate-100 rounded-full transition-all duration-200"
-                            >
-                                <MoreHorizontal className="w-4 h-4 text-slate-400" />
+                                <MoreHorizontal className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="rounded-xl border-gray-100 shadow-xl">
@@ -147,19 +117,6 @@ export function TaskTemplateRowCard({ template, onUseTemplate, onEdit, onDelete 
                     </DropdownMenu>
                 </div>
             </div>
-
-            {/* Mobile Priority Badge (Bottom row) */}
-            {priority && (
-                <div className="sm:hidden flex items-center justify-start mt-3 pt-3 border-t border-slate-50">
-                    <div 
-                        className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap border border-black/5"
-                        style={{ backgroundColor: priority.bgColor, color: priority.color }}
-                    >
-                        <Tag className="w-3 h-3" />
-                        {priority.label}
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

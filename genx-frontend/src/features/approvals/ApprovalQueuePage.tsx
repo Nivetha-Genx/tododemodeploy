@@ -220,18 +220,18 @@ export function ApprovalQueuePage() {
 
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen">
-            <div className="flex flex-col sm:flex-row items-start justify-between gap-4 shrink-0">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <CheckCircle className="w-6 h-6 text-brand-600" />
-                        Approval Queue
+            <div className="flex flex-row items-start justify-between gap-4 shrink-0">
+                <div className="min-w-0">
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600 shrink-0" />
+                        <span className="truncate">Approval Queue</span>
                     </h1>
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-1">
                         Manage and review pending requests
                     </p>
                 </div>
                 {currentRequests.length > 0 && (
-                    <Badge variant="outline" className="bg-white/80 backdrop-blur-sm bg-amber-100 text-amber-700 border-amber-300 py-1.5 px-3 rounded-full font-bold uppercase tracking-wider text-[10px] shadow-sm">
+                    <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-300 py-1.5 px-3 rounded-full font-bold uppercase tracking-wider text-[9px] sm:text-[10px] shadow-sm shrink-0 mt-1">
                         {currentRequests.length} Pending
                     </Badge>
                 )}

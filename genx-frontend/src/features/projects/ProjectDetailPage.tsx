@@ -117,14 +117,14 @@ export function ProjectDetailPage() {
                 if (payload.new.status_id !== payload.old.status_id) changes.push('status')
                 if (payload.new.priority !== payload.old.priority) changes.push('priority')
                 if (payload.new.estimated_hours !== payload.old.estimated_hours) changes.push('estimated hours')
-                
+
                 if (changes.length > 0) {
                     return (
                         <div className="flex items-center gap-1.5 flex-wrap">
-                            {Actor} <Connector>updated</Connector> 
+                            {Actor} <Connector>updated</Connector>
                             <span className="bg-gray-100/80 text-black px-1.5 py-0.5 rounded text-[9px] font-bold border border-gray-200 uppercase tracking-widest">
                                 {changes.join(', ')}
-                            </span> 
+                            </span>
                             <Connector>of task</Connector> {TaskLink}
                         </div>
                     )
@@ -142,10 +142,10 @@ export function ProjectDetailPage() {
             const filename = payload?.filename || 'a file'
             return (
                 <div className="flex items-center gap-1.5 flex-wrap">
-                    {Actor} <Connector>uploaded</Connector> 
+                    {Actor} <Connector>uploaded</Connector>
                     <span className=" text-black py-0.5 text-[12px] font-bold italic">
                         {filename}
-                    </span> 
+                    </span>
                     <Connector>to task</Connector> {TaskLink}
                 </div>
             )
@@ -155,10 +155,10 @@ export function ProjectDetailPage() {
             const filename = payload?.filename || 'a file'
             return (
                 <div className="flex items-center gap-1.5 flex-wrap">
-                    {Actor} <Connector>deleted attachment</Connector> 
+                    {Actor} <Connector>deleted attachment</Connector>
                     <span className=" text-black py-0.5 text-[12px] font-bold italic">
                         {filename}
-                    </span> 
+                    </span>
                     <Connector>from task</Connector> {TaskLink}
                 </div>
             )
@@ -169,10 +169,10 @@ export function ProjectDetailPage() {
             const hours = Math.round(seconds / 3600 * 10) / 10
             return (
                 <div className="flex items-center gap-1.5 flex-wrap">
-                    {Actor} <Connector>logged</Connector> 
+                    {Actor} <Connector>logged</Connector>
                     <span className="bg-gray-100 text-black font-bold px-1.5 py-0.5 rounded border border-gray-200 text-[10px]">
                         {hours}h
-                    </span> 
+                    </span>
                     <Connector>on task</Connector> {TaskLink}
                 </div>
             )
@@ -415,7 +415,7 @@ export function ProjectDetailPage() {
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-3 flex-wrap lg:flex-nowrap lg:justify-end ml-0 lg:ml-auto">
                     <div className="flex -space-x-2 shrink-0">
                         {project.projectMembers ? (
                             project.projectMembers.slice(0, 5).map((member) => (

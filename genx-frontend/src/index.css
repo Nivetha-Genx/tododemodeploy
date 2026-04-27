@@ -226,6 +226,15 @@
   .timer-glow-effect {
     animation: timer-glow 3s infinite ease-in-out;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 /* Remove number input spinners */

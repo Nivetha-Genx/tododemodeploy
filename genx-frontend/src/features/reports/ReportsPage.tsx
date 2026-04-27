@@ -190,7 +190,7 @@ export function ReportsPage() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <BarChart3 className="w-6 h-6 text-brand-600" />
@@ -200,46 +200,49 @@ export function ReportsPage() {
                         Track productivity, utilization, and delivery metrics
                     </p>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3">
-                    <Select value={dateRange} onValueChange={setDateRange}>
-                        <SelectTrigger className="w-[140px] sm:w-40 bg-white border-gray-200 h-9 text-sm justify-between shadow-sm flex-shrink-0">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 p-1 bg-white ring-1 ring-black/5">
-                            <SelectItem value="day" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors border-b border-gray-100 mb-0.5">
-                                <div className="flex items-center gap-2 font-medium text-gray-900">
-                                    <Calendar className="w-4 h-4 text-emerald-500 shrink-0" />
-                                    Today
-                                </div>
-                            </SelectItem>
-                            <SelectItem value="week" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors border-b border-gray-100 mb-0.5">
-                                <div className="flex items-center gap-2 font-medium text-gray-900">
-                                    <Calendar className="w-4 h-4 text-indigo-500 shrink-0" />
-                                    This Week
-                                </div>
-                            </SelectItem>
-                            <SelectItem value="month" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors">
-                                <div className="flex items-center gap-2 font-medium text-gray-900">
-                                    <Calendar className="w-4 h-4 text-violet-500 shrink-0" />
-                                    This Month
-                                </div>
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                <div className="flex items-center gap-2 sm:gap-3 w-full lg:w-auto">
+                    <div className="flex-1 lg:flex-none lg:w-40">
+                        <Select value={dateRange} onValueChange={setDateRange}>
+                            <SelectTrigger className="w-full bg-white border-gray-200 h-9 text-sm justify-between shadow-sm">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 p-1 bg-white ring-1 ring-black/5">
+                                <SelectItem value="day" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors border-b border-gray-100 mb-0.5">
+                                    <div className="flex items-center gap-2 font-medium text-gray-900">
+                                        <Calendar className="w-4 h-4 text-emerald-500 shrink-0" />
+                                        Today
+                                    </div>
+                                </SelectItem>
+                                <SelectItem value="week" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors border-b border-gray-100 mb-0.5">
+                                    <div className="flex items-center gap-2 font-medium text-gray-900">
+                                        <Calendar className="w-4 h-4 text-indigo-500 shrink-0" />
+                                        This Week
+                                    </div>
+                                </SelectItem>
+                                <SelectItem value="month" className="cursor-pointer rounded-xl py-2 px-3 focus:bg-brand-50/80 transition-colors">
+                                    <div className="flex items-center gap-2 font-medium text-gray-900">
+                                        <Calendar className="w-4 h-4 text-violet-500 shrink-0" />
+                                        This Month
+                                    </div>
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <Button
                         variant="outline"
-                        className="flex-1 sm:flex-none bg-brand-600 text-white hover:bg-brand-700 hover:text-white"
+                        className="flex-1 lg:flex-none bg-brand-600 text-white hover:bg-brand-700 hover:text-white h-9 px-3 text-sm"
                         onClick={handleExport}
                         disabled={isExporting}
                     >
                         {isExporting ? (
                             <>
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
-                                Exporting...
+                                <span className="hidden xs:inline">Exporting...</span>
+                                <span className="xs:hidden">...</span>
                             </>
                         ) : (
                             <>
-                                <Download className="w-4 h-4 mr-2" />
+                                <Download className="w-4 h-4 mr-1 md:mr-2" />
                                 Export
                             </>
                         )}
@@ -355,69 +358,69 @@ export function ReportsPage() {
                                     <div className="h-[350px] sm:h-[400px] min-w-[700px] w-full pr-4">
                                         {productivityData.length > 0 ? (
                                             <ResponsiveContainer width="100%" height="100%">
-                                            <AreaChart data={productivityData}>
-                                                <defs>
-                                                    <linearGradient id="colorLogged" x1="0" y1="0" x2="0" y2="1">
-                                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.25} />
-                                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
-                                                    </linearGradient>
-                                                </defs>
-                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                                <XAxis
-                                                    dataKey="date"
-                                                    tickFormatter={(v) => {
-                                                        const d = new Date(v)
-                                                        return dateRange === 'day'
-                                                            ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                                                            : d.toLocaleDateString([], { month: 'short', day: 'numeric' })
-                                                    }}
-                                                    axisLine={false}
-                                                    tickLine={false}
-                                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
-                                                    dy={10}
-                                                />
-                                                <YAxis
-                                                    axisLine={false}
-                                                    tickLine={false}
-                                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
-                                                    dx={-10}
-                                                />
-                                                <Tooltip
-                                                    contentStyle={{
-                                                        backgroundColor: '#fff',
-                                                        borderRadius: '16px',
-                                                        border: 'none',
-                                                        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
-                                                        padding: '12px'
-                                                    }}
-                                                />
-                                                <Legend verticalAlign="top" height={36}/>
-                                                <Area
-                                                    type="monotone"
-                                                    dataKey="logged"
-                                                    stroke="#8b5cf6"
-                                                    strokeWidth={3}
-                                                    fillOpacity={1}
-                                                    fill="url(#colorLogged)"
-                                                    name="Logged Hours"
-                                                />
-                                                <Area
-                                                    type="monotone"
-                                                    dataKey="expected"
-                                                    stroke="#94a3b8"
-                                                    strokeWidth={2}
-                                                    strokeDasharray="5 5"
-                                                    fill="transparent"
-                                                    name="Expected Hours"
-                                                />
-                                            </AreaChart>
-                                        </ResponsiveContainer>
-                                    ) : (
-                                        <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-2">
-                                            <Activity className="w-8 h-8 opacity-20" />
-                                            <p>No productivity data available for this range</p>
-                                        </div>
-                                    )}
+                                                <AreaChart data={productivityData}>
+                                                    <defs>
+                                                        <linearGradient id="colorLogged" x1="0" y1="0" x2="0" y2="1">
+                                                            <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.25} />
+                                                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                                    <XAxis
+                                                        dataKey="date"
+                                                        tickFormatter={(v) => {
+                                                            const d = new Date(v)
+                                                            return dateRange === 'day'
+                                                                ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                                                                : d.toLocaleDateString([], { month: 'short', day: 'numeric' })
+                                                        }}
+                                                        axisLine={false}
+                                                        tickLine={false}
+                                                        tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                                        dy={10}
+                                                    />
+                                                    <YAxis
+                                                        axisLine={false}
+                                                        tickLine={false}
+                                                        tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                                        dx={-10}
+                                                    />
+                                                    <Tooltip
+                                                        contentStyle={{
+                                                            backgroundColor: '#fff',
+                                                            borderRadius: '16px',
+                                                            border: 'none',
+                                                            boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                                                            padding: '12px'
+                                                        }}
+                                                    />
+                                                    <Legend verticalAlign="top" height={36} />
+                                                    <Area
+                                                        type="monotone"
+                                                        dataKey="logged"
+                                                        stroke="#8b5cf6"
+                                                        strokeWidth={3}
+                                                        fillOpacity={1}
+                                                        fill="url(#colorLogged)"
+                                                        name="Logged Hours"
+                                                    />
+                                                    <Area
+                                                        type="monotone"
+                                                        dataKey="expected"
+                                                        stroke="#94a3b8"
+                                                        strokeWidth={2}
+                                                        strokeDasharray="5 5"
+                                                        fill="transparent"
+                                                        name="Expected Hours"
+                                                    />
+                                                </AreaChart>
+                                            </ResponsiveContainer>
+                                        ) : (
+                                            <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-2">
+                                                <Activity className="w-8 h-8 opacity-20" />
+                                                <p>No productivity data available for this range</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </CardContent>
@@ -431,36 +434,36 @@ export function ReportsPage() {
                                 <div className="w-full overflow-x-auto no-scrollbar">
                                     <div className="min-w-[500px] w-full">
                                         <ScrollArea className="h-[450px] w-full pr-4">
-                                    <div style={{ height: Math.max(300, utilizationData.length * 50) }}>
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <BarChart data={utilizationData} layout="vertical" margin={{ left: 20, right: 30, top: 10, bottom: 10 }}>
-                                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" horizontal={false} />
-                                                <XAxis type="number" domain={[0, 100]} stroke="#9CA3AF" />
-                                                <YAxis
-                                                    type="category"
-                                                    dataKey="userName"
-                                                    stroke="#9CA3AF"
-                                                    width={120}
-                                                    tick={{ fontSize: 12 }}
-                                                />
-                                                <Tooltip
-                                                    cursor={{ fill: 'transparent' }}
-                                                    contentStyle={{
-                                                        borderRadius: '8px',
-                                                        border: 'none',
-                                                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                                                    }}
-                                                />
-                                                <Bar
-                                                    dataKey="productivityPercentage"
-                                                    fill="#6366F1"
-                                                    radius={[0, 4, 4, 0]}
-                                                    name="Productivity %"
-                                                    barSize={24}
-                                                />
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </div>
+                                            <div style={{ height: Math.max(300, utilizationData.length * 50) }}>
+                                                <ResponsiveContainer width="100%" height="100%">
+                                                    <BarChart data={utilizationData} layout="vertical" margin={{ left: 20, right: 30, top: 10, bottom: 10 }}>
+                                                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" horizontal={false} />
+                                                        <XAxis type="number" domain={[0, 100]} stroke="#9CA3AF" />
+                                                        <YAxis
+                                                            type="category"
+                                                            dataKey="userName"
+                                                            stroke="#9CA3AF"
+                                                            width={120}
+                                                            tick={{ fontSize: 12 }}
+                                                        />
+                                                        <Tooltip
+                                                            cursor={{ fill: 'transparent' }}
+                                                            contentStyle={{
+                                                                borderRadius: '8px',
+                                                                border: 'none',
+                                                                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                                                            }}
+                                                        />
+                                                        <Bar
+                                                            dataKey="productivityPercentage"
+                                                            fill="#6366F1"
+                                                            radius={[0, 4, 4, 0]}
+                                                            name="Productivity %"
+                                                            barSize={24}
+                                                        />
+                                                    </BarChart>
+                                                </ResponsiveContainer>
+                                            </div>
                                         </ScrollArea>
                                     </div>
                                 </div>
@@ -478,34 +481,34 @@ export function ReportsPage() {
                                 <div className="w-full overflow-x-auto no-scrollbar">
                                     <div className="h-[350px] sm:h-[400px] min-w-[600px] w-full pr-4">
                                         <ResponsiveContainer width="100%" height="100%">
-                                        <LineChart data={burndownData}>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                            <XAxis
-                                                dataKey="date"
-                                                tickFormatter={(v) => new Date(v).toLocaleDateString('en', { month: 'short', day: 'numeric' })}
-                                                stroke="#9CA3AF"
-                                            />
-                                            <YAxis stroke="#9CA3AF" />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Line
-                                                type="monotone"
-                                                dataKey="remaining"
-                                                stroke="#6366F1"
-                                                strokeWidth={2}
-                                                dot={{ fill: '#6366F1' }}
-                                                name="Remaining Work"
-                                            />
-                                            <Line
-                                                type="monotone"
-                                                dataKey="ideal"
-                                                stroke="#9CA3AF"
-                                                strokeWidth={2}
-                                                strokeDasharray="5 5"
-                                                name="Ideal Burndown"
-                                            />
-                                        </LineChart>
-                                    </ResponsiveContainer>
+                                            <LineChart data={burndownData}>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                                                <XAxis
+                                                    dataKey="date"
+                                                    tickFormatter={(v) => new Date(v).toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+                                                    stroke="#9CA3AF"
+                                                />
+                                                <YAxis stroke="#9CA3AF" />
+                                                <Tooltip />
+                                                <Legend />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="remaining"
+                                                    stroke="#6366F1"
+                                                    strokeWidth={2}
+                                                    dot={{ fill: '#6366F1' }}
+                                                    name="Remaining Work"
+                                                />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="ideal"
+                                                    stroke="#9CA3AF"
+                                                    strokeWidth={2}
+                                                    strokeDasharray="5 5"
+                                                    name="Ideal Burndown"
+                                                />
+                                            </LineChart>
+                                        </ResponsiveContainer>
                                     </div>
                                 </div>
                             </CardContent>
@@ -522,16 +525,16 @@ export function ReportsPage() {
                                 <div className="w-full overflow-x-auto no-scrollbar">
                                     <div className="h-[350px] sm:h-[400px] min-w-[600px] w-full pr-4">
                                         <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={velocityData}>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                            <XAxis dataKey="sprint" stroke="#9CA3AF" />
-                                            <YAxis stroke="#9CA3AF" />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Bar dataKey="committed" fill="#336ad7ff" name="Committed" radius={[4, 4, 0, 0]} />
-                                            <Bar dataKey="completed" fill="#22C55E" name="Completed" radius={[4, 4, 0, 0]} />
-                                        </BarChart>
-                                    </ResponsiveContainer>
+                                            <BarChart data={velocityData}>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                                                <XAxis dataKey="sprint" stroke="#9CA3AF" />
+                                                <YAxis stroke="#9CA3AF" />
+                                                <Tooltip />
+                                                <Legend />
+                                                <Bar dataKey="committed" fill="#336ad7ff" name="Committed" radius={[4, 4, 0, 0]} />
+                                                <Bar dataKey="completed" fill="#22C55E" name="Completed" radius={[4, 4, 0, 0]} />
+                                            </BarChart>
+                                        </ResponsiveContainer>
                                     </div>
                                 </div>
                             </CardContent>

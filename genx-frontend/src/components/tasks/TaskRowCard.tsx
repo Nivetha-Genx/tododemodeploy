@@ -45,46 +45,45 @@ export function TaskRowCard({ task, onClick, showDuePrefix }: TaskRowCardProps) 
                     <h3 className="text-[15px] sm:text-base font-semibold text-slate-800 transition-colors line-clamp-1 leading-tight group-hover:text-brand-600">
                         {task.title}
                     </h3>
+                    <div
+                        className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold border border-black/5 shadow-sm shrink-0"
+                        style={{ backgroundColor: priority.bgColor, color: priority.color }}
+                    >
+                        <Tag className="w-2.5 h-2.5" />
+                        {priority.label}
+                    </div>
                 </div>
 
                 {/* Meta Info: Date, Project, Assignee */}
-                <div className="flex items-center justify-between gap-4 mt-0.5">
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-400 text-[11px] font-medium">
+                <div className="flex items-center gap-2 mt-0.5 overflow-hidden">
+                    <div className="flex items-center gap-2 text-slate-400 text-[11px] font-medium min-w-0">
                         <div className={cn(
-                            "flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100",
+                            "flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 shrink-0",
                             isOverdueTask ? "text-red-600 font-bold bg-red-50 border-red-50" : "text-slate-500"
                         )}>
                             <Calendar className="w-3 h-3" />
-                            <span>{showDuePrefix && isOverdueTask ? 'Due ' : ''}{isToday ? 'Today' : formatDate(effectiveDueDate)}</span>
+                            <span className="whitespace-nowrap">{showDuePrefix && isOverdueTask ? 'Due ' : ''}{isToday ? 'Today' : formatDate(effectiveDueDate)}</span>
                         </div>
 
                         {task.projectName && (
-                            <div className="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
-                                <Briefcase className="w-3 h-3 text-brand-400" />
+                            <div className="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 min-w-0 flex-shrink">
+                                <Briefcase className="w-3 h-3 text-brand-400 shrink-0" />
                                 <span className="max-w-[100px] truncate">{task.projectName}</span>
                             </div>
                         )}
 
-                        <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+                        <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 min-w-0 flex-shrink">
                             <UserAvatar
                                 user={{
                                     id: task.assigneeId || '',
                                     name: task.assigneeName || 'Unassigned',
                                     avatar: task.assigneeAvatar
                                 }}
-                                className="h-4 w-4 shadow-sm"
+                                className="h-4 w-4 shadow-sm shrink-0"
                                 fallbackClassName="text-[8px]"
                             />
                             <span className="max-w-[80px] truncate text-slate-500">{task.assigneeName || 'Unassigned'}</span>
                         </div>
-                    </div>
-
-                    <div
-                        className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold border border-black/5 shadow-sm"
-                        style={{ backgroundColor: priority.bgColor, color: priority.color }}
-                    >
-                        <Tag className="w-2.5 h-2.5" />
-                        {priority.label}
                     </div>
                 </div>
 
