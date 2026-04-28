@@ -137,7 +137,7 @@ export function StandupView({ members, sprintId, standupTimeMinutes, onExit }: S
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-                        className="lg:hidden text-gray-500 hover:text-gray-900 p-2"
+                        className="md:hidden text-gray-500 hover:text-gray-900 p-2"
                     >
                         {isMobileSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </Button>
@@ -174,15 +174,15 @@ export function StandupView({ members, sprintId, standupTimeMinutes, onExit }: S
                 {/* Backdrop for mobile sidebar */}
                 {isMobileSidebarOpen && (
                     <div
-                        className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-30 lg:hidden"
+                        className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-30 md:hidden"
                         onClick={() => setIsMobileSidebarOpen(false)}
                     />
                 )}
 
                 {/* Sidebar - Members List */}
                 <div className={cn(
-                    "fixed inset-y-0 left-0 w-80 bg-white border-r border-gray-100 flex flex-col shrink-0 z-40 lg:z-0 lg:static transition-transform duration-300 ease-in-out transform",
-                    isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+                    "fixed inset-y-0 left-0 w-72 bg-white border-r border-gray-100 flex flex-col shrink-0 z-40 md:z-0 md:static transition-transform duration-300 ease-in-out transform",
+                    isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
                 )}>
                     <div className="p-5 flex flex-col gap-6">
                         <div className="flex items-center justify-between">

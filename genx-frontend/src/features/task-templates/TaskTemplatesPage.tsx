@@ -112,17 +112,21 @@ export function TaskTemplatesPage() {
 
     return (
         <div className="space-y-6 h-full flex flex-col min-h-0">
-            <div className="flex flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 shrink-0">
+            <div className="flex justify-between items-start gap-2 sm:gap-6 shrink-0">
                 <div className="flex-1 min-w-0">
-                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate flex items-center gap-2">
+                    <h1 className="text-lg sm:text-2xl font-bold text-gray-900 flex items-center gap-2 break-words">
                         <FileStack className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600 shrink-0" />
-                        Task Templates
+                        <span className="break-words">Task Templates</span>
                     </h1>
-                    <p className="text-sm sm:text-base text-gray-500 mt-1">
+
+                    <p className="text-xs sm:text-base text-gray-500 mt-1 break-words">
                         Create templates for repeated tasks and use them to prefill the task form
                     </p>
                 </div>
-                <Button onClick={() => openModal('createTaskTemplate')} className="shrink-0 mt-1 sm:mt-0">
+                <Button 
+                    onClick={() => openModal('createTaskTemplate')} 
+                    className="shrink-0 whitespace-nowrap"
+                >
                     <Plus className="w-4 h-4 mr-1 sm:mr-2 shrink-0" />
                     <span className="hidden sm:inline">Add template</span>
                     <span className="sm:hidden">Add</span>

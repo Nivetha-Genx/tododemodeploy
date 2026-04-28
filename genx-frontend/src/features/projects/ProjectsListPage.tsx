@@ -163,7 +163,7 @@ export function ProjectsListPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="grid grid-cols-[1fr_auto] items-start sm:flex sm:flex-row sm:items-center justify-between gap-x-3 gap-y-1">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
                         <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600" />
@@ -174,9 +174,9 @@ export function ProjectsListPage() {
                     </p>
                 </div>
                 {(can('projects.create') || isAdmin(getAccessLevel(user)) || isTeamLead(getAccessLevel(user))) && (
-                    <Button 
+                    <Button
                         onClick={() => openModal('createProject', { onSuccess: fetchProjects })}
-                        className="w-full sm:w-auto h-10 sm:h-auto"
+                        className="h-8 px-2 text-xs sm:h-auto sm:px-3 sm:text-sm sm:w-auto self-start sm:self-auto ml-auto"
                     >
                         <Plus className="w-4 h-4 mr-2" />
                         New Project

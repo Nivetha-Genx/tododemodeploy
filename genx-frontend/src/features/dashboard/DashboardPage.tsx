@@ -32,6 +32,7 @@ import {
     ArrowRight,
 } from 'lucide-react'
 
+import { priorityConfig } from '@/mock'
 
 import { dashboardApi } from '@/api/dashboard'
 import { organizationsApi } from '@/api/organizations'
@@ -46,6 +47,7 @@ import { FileStack, Plus } from 'lucide-react'
 function CompactTaskCard({ task, onClick, showDuePrefix, showTime }: { task: Task; onClick?: () => void; showDuePrefix?: boolean; showTime?: boolean }) {
     const { getStatusStyles } = useStatusStore()
     const status = getStatusStyles(task.status)
+    const priority = priorityConfig[task.priority]
     const effectiveDueDate = task.dueDate || task.startDate
 
     // Determine if the date is today
@@ -327,16 +329,15 @@ export function DashboardPage() {
 
     const topPerformersCard = (
         <Card className="border-gray-200 shadow-sm overflow-hidden bg-gradient-to-br from-white to-gray-50/50">
-            <CardHeader className="flex flex-row items-center justify-between pb-2 gap-4">
-                {/* <CardTitle className="text-lg font-bold flex items-center gap-2.5"> */}
-                <CardTitle className="text-lg font-bold flex items-center gap-1 whitespace-nowrap shrink-0">
-                    <div className="p-2 bg-amber-50 rounded-xl">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 gap-2">
+                <CardTitle className="text-lg font-bold flex items-center gap-1 min-w-0">
+                    <div className="p-2 bg-amber-50 rounded-xl shrink-0">
                         <Trophy className="w-5 h-5 text-amber-600" />
                     </div>
-                    Top Performers
+                    <span className="truncate">Top Performers</span>
                 </CardTitle>
-                <Link to="/leaderboard">
-                    <Button variant="ghost" size="sm" className="h-8 px-4 text-[10px] font-bold uppercase tracking-widest bg-white hover:bg-brand-50 hover:text-brand-600 border border-gray-200 hover:border-brand-200 rounded-full shadow-sm transition-all duration-300">
+                <Link to="/leaderboard" className="shrink-0 ml-auto pl-2">
+                    <Button variant="ghost" size="sm" className="h-8 px-2 sm:px-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest bg-white hover:bg-brand-50 hover:text-brand-600 border border-gray-200 hover:border-brand-200 rounded-full shadow-sm transition-all duration-300 whitespace-nowrap">
                         Leaderboard
                     </Button>
                 </Link>
@@ -477,13 +478,13 @@ export function DashboardPage() {
                         <TabsList className="bg-white/50 p-1 rounded-full border border-gray-200/50 flex h-auto gap-1 shadow-sm w-max">
                             <TabsTrigger
                                 value="overview"
-                                className="px-6 py-2 rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black flex items-center gap-2 whitespace-nowrap"
+                                className="px-3 sm:px-6 py-2 rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[9px] min-[360px]:text-[10px] sm:text-xs uppercase tracking-tight min-[360px]:tracking-widest text-black flex items-center gap-1.5 whitespace-nowrap"
                             >
                                 Overview
                             </TabsTrigger>
                             <TabsTrigger
                                 value="team-performance"
-                                className="px-6 py-2 rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black flex items-center gap-2 whitespace-nowrap"
+                                className="px-3 sm:px-6 py-2 rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[9px] min-[360px]:text-[10px] sm:text-xs uppercase tracking-tight min-[360px]:tracking-widest text-black flex items-center gap-1.5 whitespace-nowrap"
                             >
                                 Team Performance
                             </TabsTrigger>
@@ -768,15 +769,15 @@ export function DashboardPage() {
 
                         <Card className="border-gray-200 shadow-sm overflow-hidden bg-white">
                             <CardHeader className="pb-4 pt-6">
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <FileCheck className="w-5 h-5 text-amber-600" />
-                                        <CardTitle className="text-xl font-black text-slate-900 tracking-tight">
+                                <div className="grid grid-cols-[1fr_auto] items-center gap-x-3 mb-4">
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <FileCheck className="w-5 h-5 text-amber-600 shrink-0" />
+                                        <CardTitle className="text-xl font-black text-slate-900 tracking-tight truncate">
                                             Approvals
                                         </CardTitle>
                                     </div>
-                                    <Link to="/approvals" className="w-full sm:w-auto">
-                                        <Button variant="ghost" size="sm" className="w-full sm:h-8 px-4 text-[10px] font-bold uppercase tracking-widest bg-white hover:bg-brand-50 hover:text-brand-600 border border-gray-200 hover:border-brand-200 rounded-full shadow-sm transition-all duration-300">
+                                    <Link to="/approvals">
+                                        <Button variant="ghost" size="sm" className="h-8 px-4 text-[10px] font-bold uppercase tracking-widest bg-white hover:bg-brand-50 hover:text-brand-600 border border-gray-200 hover:border-brand-200 rounded-full shadow-sm transition-all duration-300 whitespace-nowrap">
                                             Manage All
                                         </Button>
                                     </Link>
@@ -786,13 +787,13 @@ export function DashboardPage() {
                                         <TabsList className="bg-slate-100/50 p-1 h-auto rounded-3xl  bg-brand-50 text-brand-600 border border-gray-200 flex w-full sm:w-max gap-1">
                                             <TabsTrigger
                                                 value="due-dates"
-                                                className="flex-1 sm:flex-none px-6 py-2 rounded-3xl data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-500"
+                                                className="flex-1 sm:flex-none px-2 min-[360px]:px-4 sm:px-6 py-2 rounded-3xl data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm transition-all font-bold text-[9px] min-[360px]:text-[10px] sm:text-xs uppercase tracking-tight min-[360px]:tracking-widest text-slate-500"
                                             >
                                                 Due Dates ({pendingRequests.length})
                                             </TabsTrigger>
                                             <TabsTrigger
                                                 value="extra-hours"
-                                                className="flex-1 sm:flex-none px-6 py-2 rounded-3xl data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-slate-500"
+                                                className="flex-1 sm:flex-none px-2 min-[360px]:px-4 sm:px-6 py-2 rounded-3xl data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-sm transition-all font-bold text-[9px] min-[360px]:text-[10px] sm:text-xs uppercase tracking-tight min-[360px]:tracking-widest text-slate-500"
                                             >
                                                 Extra Hours ({pendingExtraHours.length})
                                             </TabsTrigger>
@@ -801,39 +802,38 @@ export function DashboardPage() {
                                 </div>
                             </CardHeader>
                             <CardContent className="pb-6">
-                                <div className="max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200">
+                                <div className="max-h-[400px] overflow-y-auto pr-1 sm:pr-2 scrollbar-thin scrollbar-thumb-gray-200">
                                     {approvalTab === 'due-dates' ? (
                                         <div className="space-y-3">
                                             {pendingRequests.map((request) => (
                                                 <Link
                                                     key={request.id}
                                                     to="/approvals?tab=due-dates"
-                                                    className="group block p-5 bg-white hover:bg-slate-50 border border-gray-200 rounded-3xl shadow-sm transition-all cursor-pointer"
+                                                    className="group block p-3 sm:p-5 bg-white hover:bg-slate-50 border border-gray-200 rounded-2xl sm:rounded-3xl shadow-sm transition-all cursor-pointer"
                                                 >
-                                                    <div className="flex items-start justify-between gap-4">
-                                                    <div className="flex-1 min-w-0">
-                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1.5">
-                                                                <p className="text-sm sm:text-base font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
+                                                    {/* Mobile: badge in header row. sm+: badge on right side */}
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1.5">
+                                                                <p className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                                                                     Due Date Change
                                                                 </p>
-                                                                <div className="hidden sm:block h-1 w-1 rounded-full bg-slate-300" />
-                                                                <p className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest truncate">
-                                                                    {request.requester?.name}
+                                                                <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">
+                                                                    · {request.requester?.name}
                                                                 </p>
                                                             </div>
-                                                            <p className="text-xs sm:text-sm text-slate-600 line-clamp-1 mb-3 font-medium">
-                                                                {request.task?.title}
-                                                            </p>
-                                                            <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
-                                                                <span className="text-slate-400 font-medium tracking-tight whitespace-nowrap">Currently: {formatDate(request.current_due_date)}</span>
-                                                                <ArrowRight className="hidden sm:block w-4 h-4 text-brand-400" />
-                                                                <div className="sm:hidden w-full h-[1px] bg-slate-100" />
-                                                                <span className="font-black text-brand-600 tracking-tight whitespace-nowrap">Proposed: {formatDate(request.proposed_due_date)}</span>
-                                                            </div>
                                                         </div>
-                                                        <Badge variant="outline" className='bg-amber-50/50 rounded-3xl text-amber-700 border-amber-200 text-[10px] shrink-0 font-black uppercase tracking-wider px-3 py-1'>
+                                                        <Badge variant="outline" className='bg-amber-50/50 rounded-2xl text-amber-700 border-amber-200 text-[9px] sm:text-[10px] shrink-0 font-black uppercase tracking-wider px-2 sm:px-3 py-0.5 sm:py-1'>
                                                             Pending
                                                         </Badge>
+                                                    </div>
+                                                    <p className="text-[11px] sm:text-sm text-slate-600 line-clamp-1 mb-2 sm:mb-3 font-medium">
+                                                        {request.task?.title}
+                                                    </p>
+                                                    <div className="flex flex-row flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10px] sm:text-xs">
+                                                        <span className="text-slate-400 font-medium whitespace-nowrap">Currently: <span className="font-bold text-slate-600">{formatDate(request.current_due_date)}</span></span>
+                                                        <span className="text-slate-300 shrink-0">→</span>
+                                                        <span className="text-brand-600 font-medium whitespace-nowrap">Proposed: <span className="font-black">{formatDate(request.proposed_due_date)}</span></span>
                                                     </div>
                                                 </Link>
                                             ))}
@@ -850,29 +850,28 @@ export function DashboardPage() {
                                                 <Link
                                                     key={request.id}
                                                     to="/approvals?tab=extra-hours"
-                                                    className="group block p-5 bg-white hover:bg-slate-50 border border-gray-100 rounded-3xl shadow-sm transition-all cursor-pointer"
+                                                    className="group block p-3 sm:p-5 bg-white hover:bg-slate-50 border border-gray-100 rounded-2xl sm:rounded-3xl shadow-sm transition-all cursor-pointer"
                                                 >
-                                                    <div className="flex items-start justify-between gap-4">
+                                                    <div className="flex items-start justify-between gap-2 sm:gap-4">
                                                         <div className="flex-1 min-w-0">
-                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1.5">
-                                                                <p className="text-sm sm:text-base font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
+                                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1.5">
+                                                                <p className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                                                                     Extra Log Hours
                                                                 </p>
-                                                                <div className="hidden sm:block h-1 w-1 rounded-full bg-slate-300" />
-                                                                <p className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest truncate">
-                                                                    {request.user?.name}
+                                                                <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">
+                                                                    · {request.user?.name}
                                                                 </p>
                                                             </div>
-                                                            <p className="text-xs sm:text-sm text-slate-600 line-clamp-1 mb-3 font-medium">
+                                                            <p className="text-[11px] sm:text-sm text-slate-600 line-clamp-1 mb-2 sm:mb-3 font-medium">
                                                                 {request.task?.title}
                                                             </p>
-                                                            <div className="flex items-center gap-2 text-[10px] sm:text-xs text-slate-500">
-                                                                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 text-brand-400" />
+                                                            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-slate-500">
+                                                                <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-50 text-brand-400 shrink-0" />
                                                                 <span className="font-medium tracking-tight">Requested</span>
                                                                 <span className="font-black text-brand-600 tracking-tight">+{formatHoursMinutes(request.duration_seconds / 3600)} hrs</span>
                                                             </div>
                                                         </div>
-                                                        <Badge variant="outline" className='bg-amber-50/50 text-amber-700 rounded-full border-amber-200 text-[10px] shrink-0 font-black uppercase tracking-wider px-3 py-1'>
+                                                        <Badge variant="outline" className='bg-amber-50/50 text-amber-700 rounded-full border-amber-200 text-[9px] sm:text-[10px] shrink-0 font-black uppercase tracking-wider px-2 sm:px-3 py-0.5 sm:py-1'>
                                                             Pending
                                                         </Badge>
                                                     </div>

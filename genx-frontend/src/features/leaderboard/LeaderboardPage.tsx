@@ -65,7 +65,7 @@ export function LeaderboardPage() {
 
                 <div className="flex items-center gap-3 w-full sm:w-auto bg-white p-2 rounded-2xl shadow-sm border border-gray-100 relative z-10 shrink-0">
                     <Select value={month.toString()} onValueChange={(v) => setMonth(Number(v))}>
-                        <SelectTrigger className="w-full sm:w-[150px] border-none shadow-none bg-gray-50/80 hover:bg-gray-100 focus:ring-0 rounded-xl h-11 text-sm font-semibold transition-colors">
+                        <SelectTrigger className="w-full sm:w-[150px] md:flex-1 md:w-auto lg:flex-none lg:w-[150px] border-none shadow-none bg-gray-50/80 hover:bg-gray-100 focus:ring-0 rounded-xl h-11 text-sm font-semibold transition-colors">
                             <div className="flex items-center gap-2.5">
                                 <Calendar className="w-4 h-4 text-brand-500 shrink-0" />
                                 <SelectValue placeholder="Month" />
@@ -84,7 +84,7 @@ export function LeaderboardPage() {
                     </Select>
 
                     <Select value={year.toString()} onValueChange={(v) => setYear(Number(v))}>
-                        <SelectTrigger className="w-full sm:w-[110px] border-none shadow-none bg-gray-50/80 hover:bg-gray-100 focus:ring-0 rounded-xl h-11 text-sm font-semibold transition-colors">
+                        <SelectTrigger className="w-full sm:w-[110px] md:flex-1 md:w-auto lg:flex-none lg:w-[110px] border-none shadow-none bg-gray-50/80 hover:bg-gray-100 focus:ring-0 rounded-xl h-11 text-sm font-semibold transition-colors">
                             <div className="flex items-center gap-2">
                                 <SelectValue placeholder="Year" />
                             </div>

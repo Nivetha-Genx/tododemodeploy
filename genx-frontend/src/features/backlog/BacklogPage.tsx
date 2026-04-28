@@ -528,23 +528,24 @@ export function BacklogPage() {
             {/* Jira-style header */}
             <div className="flex-shrink-0 px-4 sm:px-6 py-4 bg-white border-b border-[#DFE1E6]">
                 <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 min-w-0">
+                    <div className="grid grid-cols-[1fr_auto] items-start gap-3 sm:flex sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                        <div className="min-w-0">
                             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 truncate">
                                 <ListTodo className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600 shrink-0" />
                                 <span className="truncate">Backlog</span>
                             </h1>
-                            <p className="text-gray-500 mt-1 text-sm sm:text-base hidden sm:block">
+                            <p className="text-gray-500 mt-1 text-sm">
                                 Plan tasks and manage sprints to organize your team's work
                             </p>
                         </div>
                         {isUserAdmin && (
                             <Button
                                 onClick={() => setCreateSprintOpen(true)}
-                                className="text-white gap-2 h-9 text-sm shrink-0 px-4 shadow-sm"
+                                className="text-white gap-1.5 shrink-0 shadow-sm h-8 px-3 sm:h-9 sm:px-4 text-xs sm:text-sm"
                             >
-                                <Plus className="w-4 h-4" />
-                                <span>Create Sprint</span>
+                                <Plus className="w-3.5 h-3.5 shrink-0" />
+                                <span className="sm:hidden">Sprint</span>
+                                <span className="hidden sm:inline">Create Sprint</span>
                             </Button>
                         )}
                     </div>

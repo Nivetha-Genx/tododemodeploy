@@ -162,14 +162,14 @@ export function TodayPage() {
         <div className="space-y-6 h-full flex flex-col min-h-0">
             <div className="flex items-center justify-between shrink-0 px-1">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <Target className="w-6 h-6 text-brand-600" />
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                        <Target className="w-5 h-5 sm:w-6 sm:h-6 text-brand-600 shrink-0" />
                         Today
-                        <span className="text-gray-400 font-normal text-lg ml-2">
+                        <span className="text-gray-400 font-normal text-sm sm:text-lg ml-1 sm:ml-2">
                             {todayLabel}
                         </span>
                     </h1>
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
                         {onTimeTasks.length} tasks scheduled for today
                     </p>
                 </div>
