@@ -29,10 +29,9 @@ import {
     FileCheck,
     Trophy,
     LayoutDashboard,
-    ArrowRight,
 } from 'lucide-react'
 
-import { priorityConfig } from '@/mock'
+// import { priorityConfig } from '@/mock'
 
 import { dashboardApi } from '@/api/dashboard'
 import { organizationsApi } from '@/api/organizations'
@@ -47,7 +46,7 @@ import { FileStack, Plus } from 'lucide-react'
 function CompactTaskCard({ task, onClick, showDuePrefix, showTime }: { task: Task; onClick?: () => void; showDuePrefix?: boolean; showTime?: boolean }) {
     const { getStatusStyles } = useStatusStore()
     const status = getStatusStyles(task.status)
-    const priority = priorityConfig[task.priority]
+    // const priority = priorityConfig[task.priority]
     const effectiveDueDate = task.dueDate || task.startDate
 
     // Determine if the date is today
