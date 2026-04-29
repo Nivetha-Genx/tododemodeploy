@@ -305,9 +305,9 @@ export function SprintBoardPage() {
         <div className="h-full flex flex-col min-h-0">
             {/* Fixed Header & Filters */}
             <div className="space-y-4 pb-4 bg-gray-50/50 backdrop-blur-sm z-20 shrink-0 -mx-4 md:-mx-6 px-4 md:px-6 py-2 border-b border-gray-100">
-                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <div className="flex flex-col xl:flex-row xl:items-start 2xl:items-center justify-between gap-4">
+                    <div className="shrink-0 pr-4">
+                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3 whitespace-nowrap">
                             <div className="flex items-center gap-2">
                                 <LayoutGrid className="w-6 h-6 text-brand-600" />
                                 <span>Sprint Board</span>
@@ -323,13 +323,13 @@ export function SprintBoardPage() {
                                 </Badge>
                             )}
                         </h1>
-                        <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                        <p className="text-xs sm:text-sm text-gray-500 mt-1 max-w-xl break-words">
                             {selectedSprint
                                 ? `${selectedSprint.name} (${formatDate(selectedSprint.start_date)} – ${formatDate(selectedSprint.end_date)})`
                                 : 'Select a sprint to view and manage tasks'}
                         </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full xl:w-auto">
+                    <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center sm:justify-end gap-3 w-full xl:w-auto">
                         <Button
                             variant="default"
                             onClick={() => setIsStandupMode(true)}
@@ -342,11 +342,11 @@ export function SprintBoardPage() {
                             value={selectedSprintId ?? ''}
                             onValueChange={(v) => handleSprintChange(v || '')}
                         >
-                            <SelectTrigger className="w-full sm:w-[240px] bg-white h-10 sm:h-9 border-gray-200 hover:border-brand-300 transition-colors shadow-sm focus:ring-brand-500/20">
-                                <div className="flex items-center gap-2 truncate">
+                            <SelectTrigger className="w-full sm:w-[180px] lg:w-[200px] bg-white h-10 sm:h-9 border-gray-200 hover:border-brand-300 transition-colors shadow-sm focus:ring-brand-500/20">
+                                <div className="flex items-center gap-2 w-full truncate pr-1">
                                     {selectedSprint ? (
-                                        <div className="flex items-center gap-10 truncate">
-                                            <span className="font-semibold text-sm text-gray-900 truncate">{selectedSprint.name}</span>
+                                        <div className="flex items-center justify-between w-full gap-2 truncate">
+                                            <span className="font-semibold text-sm text-gray-900 truncate text-left">{selectedSprint.name}</span>
                                             <Badge
                                                 variant="outline"
                                                 className={cn(
@@ -628,7 +628,7 @@ export function SprintBoardPage() {
                                     <ChevronDown className={cn("ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform", projectPopoverOpen && "rotate-180")} />
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-[220px] p-1 rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 bg-white ring-1 ring-black/5" align="start">
+                            <PopoverContent className="w-[220px] p-1 rounded-2xl border-gray-200 shadow-2xl shadow-brand-100/20 bg-white ring-1 ring-black/5" align="end">
                                 <div className="p-2 border-b border-gray-100 mb-1">
                                     <div className="relative">
                                         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />

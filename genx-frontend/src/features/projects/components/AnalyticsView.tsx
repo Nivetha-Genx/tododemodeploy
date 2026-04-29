@@ -62,6 +62,7 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
     const completedTasks = tasks.filter(t => t.status === 'completed').length
     const overdueTasks = tasks.filter(t => isOverdue(t.dueDate) && t.status !== 'completed').length
     const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0
+    const overdueRate = totalTasks ? Math.round((overdueTasks / totalTasks) * 100) : 0
 
     // Calculate total estimated hours from all tasks and their subtasks
     const totalEstimatedHours = tasks.reduce((total, task) => {
@@ -75,7 +76,7 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
     return (
         <div className="space-y-6">
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 <Card>
                     <CardContent className="pt-6">
                         <div className="flex items-center justify-between mb-1">
@@ -85,7 +86,7 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
                                 </div>
                                 <h3 className="text-2xl font-bold text-gray-900">{totalTasks}</h3>
                             </div>
-                            <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{totalTasks} Total</span>
+                            <span className="text-xs font-medium text-blue-500 bg-blue-100 px-2 py-1 rounded-full">Tasks</span>
                         </div>
                         <p className="text-xs text-gray-500">Total tasks in project</p>
                     </CardContent>
@@ -108,11 +109,14 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
 
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center gap-3 mb-1">
-                            <div className="p-2 bg-red-50 text-red-600 rounded-lg">
-                                <AlertCircle className="w-4 h-4" />
+                        <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+                                    <AlertCircle className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900">{overdueTasks}</h3>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900">{overdueTasks}</h3>
+                            <span className="text-xs font-medium text-red-700 bg-red-100 px-2 py-1 rounded-full">{overdueRate}%</span>
                         </div>
                         <p className="text-xs text-gray-500">Overdue tasks</p>
                     </CardContent>
@@ -120,11 +124,14 @@ export function AnalyticsView({ projectId, tasks }: AnalyticsViewProps) {
 
                 <Card>
                     <CardContent className="pt-6">
-                        <div className="flex items-center gap-3 mb-1">
-                            <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
-                                <Clock className="w-4 h-4" />
+                        <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                                    <Clock className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900">{formatHours(totalEstimatedHours)}</h3>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900">{formatHours(totalEstimatedHours)}</h3>
+                            <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-1 rounded-full">Hours</span>
                         </div>
                         <p className="text-xs text-gray-500">Total estimated hours</p>
                     </CardContent>

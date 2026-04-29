@@ -89,7 +89,7 @@ export function ProjectDetailPage() {
         const { title } = getTaskInfo()
 
         const Actor = <span className="font-semibold text-gray-900 whitespace-nowrap">{actorName}</span>
-        const TaskLink = <span className="text-gray-900 hover:text-gray-700 cursor-pointer transition-colors tracking-tight text-[13px] font-bold">{title}</span>
+        const TaskLink = <span className="text-gray-900 hover:text-gray-700 cursor-pointer transition-colors tracking-tight text-[13px] font-bold break-all">{title}</span>
         const Connector = ({ children }: { children: string }) => <span className="text-black font-normal lowercase text-[13px] tracking-wide">{children}</span>
 
         if ((type === 'created' || type === 'task_created') && entityType === 'task') {
@@ -107,7 +107,7 @@ export function ProjectDetailPage() {
             if (oldTitle && newTitle && oldTitle !== newTitle) {
                 return (
                     <div className="flex items-center gap-1.5 flex-wrap">
-                        {Actor} <Connector>renamed task from</Connector> <span className="text-black font-medium italic">"{oldTitle}"</span> <Connector>to</Connector> <span className="font-semibold text-gray-900">"{newTitle}"</span>
+                        {Actor} <Connector>renamed task from</Connector> <span className="text-black font-medium italic break-all">"{oldTitle}"</span> <Connector>to</Connector> <span className="font-semibold text-gray-900 break-all">"{newTitle}"</span>
                     </div>
                 )
             }
@@ -143,7 +143,7 @@ export function ProjectDetailPage() {
             return (
                 <div className="flex items-center gap-1.5 flex-wrap">
                     {Actor} <Connector>uploaded</Connector>
-                    <span className=" text-black py-0.5 text-[12px] font-bold italic">
+                    <span className=" text-black py-0.5 text-[12px] font-bold italic break-all">
                         {filename}
                     </span>
                     <Connector>to task</Connector> {TaskLink}
@@ -156,7 +156,7 @@ export function ProjectDetailPage() {
             return (
                 <div className="flex items-center gap-1.5 flex-wrap">
                     {Actor} <Connector>deleted attachment</Connector>
-                    <span className=" text-black py-0.5 text-[12px] font-bold italic">
+                    <span className=" text-black py-0.5 text-[12px] font-bold italic break-all">
                         {filename}
                     </span>
                     <Connector>from task</Connector> {TaskLink}
@@ -415,7 +415,7 @@ export function ProjectDetailPage() {
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 flex-wrap lg:flex-nowrap lg:justify-end ml-0 lg:ml-auto">
+                <div className="flex items-center w-full lg:w-auto gap-3 flex-wrap lg:flex-nowrap lg:justify-end ml-0 lg:ml-auto">
                     <div className="flex -space-x-2 shrink-0">
                         {project.projectMembers ? (
                             project.projectMembers.slice(0, 5).map((member) => (
@@ -462,7 +462,7 @@ export function ProjectDetailPage() {
                             </button>
                         )}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ml-auto">
                         <Button
                             onClick={() => openModal('createTask', { projectId: project.id })}
                             className="bg-brand-600 hover:bg-brand-700 text-white shadow-sm whitespace-nowrap shrink-0"

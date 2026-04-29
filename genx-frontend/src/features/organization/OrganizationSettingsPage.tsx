@@ -499,7 +499,7 @@ export function OrganizationSettingsPage() {
                                 <div className="font-bold text-gray-900 text-xs sm:text-sm tracking-tight truncate uppercase">{status.name}</div>
                             </div>
                             {status.is_system && (
-                                <Badge variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-none font-bold text-[10px] uppercase tracking-widest px-3">
+                                <Badge variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-none font-bold text-[10px] uppercase tracking-widest px-3 shrink-0">
                                     System
                                 </Badge>
                             )}
@@ -604,7 +604,7 @@ export function OrganizationSettingsPage() {
                                 Workspace Admin
                             </Badge>
                         </div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 whitespace-nowrap">
                             <Settings className="w-6 h-6 text-brand-600 shrink-0" />
                             Organization Settings
                         </h1>
@@ -617,7 +617,7 @@ export function OrganizationSettingsPage() {
                     <Button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="flex-1 sm:flex-none rounded-full px-6 md:px-8 lg:px-10 h-10 md:h-11 lg:h-12 bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-200 transition-all font-bold flex items-center justify-center gap-2 active:scale-95"
+                        className="flex-1 sm:flex-none rounded-full px-5 md:px-6 lg:px-8 h-9 md:h-10 lg:h-10 text-sm bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-200 transition-all font-bold flex items-center justify-center gap-2 active:scale-95"
                     >
                         {isSaving ? (
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -656,7 +656,7 @@ export function OrganizationSettingsPage() {
                             <CardDescription className="text-xs sm:text-sm">Core organization identity and localized settings.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 md:p-6 lg:p-8 space-y-6 md:space-y-6 lg:space-y-8">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 sm:gap-y-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 lg:gap-y-10">
                                 <div className="space-y-3 sm:space-y-4">
                                     <div className="flex items-center gap-2">
                                         <div className="w-1 h-4 bg-brand-500 rounded-full" />
@@ -734,7 +734,7 @@ export function OrganizationSettingsPage() {
                         <CardContent className="p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8 lg:space-y-10">
                             <div className="space-y-4 sm:space-y-6">
                                 {/* Custom Kanban */}
-                                <div className="flex flex-row items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <Zap className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -744,7 +744,7 @@ export function OrganizationSettingsPage() {
                                             <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium max-w-md mt-1.5 opacity-80">Allow projects to define their own status columns instead of standard global workflow.</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center shrink-0">
+                                    <div className="flex items-center shrink-0 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0">
                                         <button
                                             onClick={() => toggleSetting('custom_kanban_enabled')}
                                             className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
@@ -769,7 +769,7 @@ export function OrganizationSettingsPage() {
                                 </div>
 
                                 {/* Enforce Subtasks */}
-                                <div className="flex flex-row items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <Shield className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -779,7 +779,7 @@ export function OrganizationSettingsPage() {
                                             <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium max-w-md mt-1.5 opacity-80">Prevent closing a main task if it still contains open subtasks.</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center shrink-0">
+                                    <div className="flex items-center shrink-0 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0">
                                         <button
                                             onClick={() => toggleSetting('enforce_subtask_completion')}
                                             className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
@@ -804,7 +804,7 @@ export function OrganizationSettingsPage() {
                                 </div>
 
                                 {/* Delayed Reason */}
-                                <div className="flex flex-row items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <AlertCircle className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -814,7 +814,7 @@ export function OrganizationSettingsPage() {
                                             <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium max-w-md mt-1.5 opacity-80">Prompt users for a brief explanation when a task moves past its original due date.</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center shrink-0">
+                                    <div className="flex items-center shrink-0 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0">
                                         <button
                                             onClick={() => toggleSetting('require_delay_reason')}
                                             className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
@@ -839,7 +839,7 @@ export function OrganizationSettingsPage() {
                                 </div>
 
                                 {/* Sprint & Backlog */}
-                                <div className="flex flex-row items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 md:p-6 lg:p-7 rounded-2xl md:rounded-[1.75rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <ListTodo className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -849,7 +849,7 @@ export function OrganizationSettingsPage() {
                                             <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium max-w-md mt-1.5 opacity-80">Enable sprint planning, backlog view, story points on tasks and standup time limit.</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center shrink-0">
+                                    <div className="flex items-center shrink-0 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0">
                                         <button
                                             onClick={() => toggleSetting('sprint_enabled')}
                                             className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
@@ -880,7 +880,7 @@ export function OrganizationSettingsPage() {
                                                 <p className="font-bold text-sm md:text-base lg:text-lg text-gray-900">Standup Time Limit</p>
                                                 <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium opacity-80">Set the default duration for each team member during daily standup sessions.</p>
                                             </div>
-                                            <div className="flex items-center gap-3 bg-white p-1.5 md:p-2 rounded-2xl border border-gray-100 shadow-sm shrink-0 h-fit w-fit lg:ml-auto">
+                                            <div className="flex items-center gap-3 bg-white p-1.5 md:p-2 rounded-2xl border border-gray-100 shadow-sm shrink-0 h-fit w-fit lg:ml-auto self-start sm:self-auto mt-2 sm:mt-0">
                                                 <div className="relative">
                                                     <Input
                                                         type="number"
@@ -914,7 +914,7 @@ export function OrganizationSettingsPage() {
                             </div>
 
                             {/* Daily Report */}
-                            <div className="flex flex-row items-center justify-between gap-4 p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group mt-6 md:mt-8 lg:mt-10">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group mt-6 md:mt-8 lg:mt-10">
                                 <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                     <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                         <Clock className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -924,7 +924,7 @@ export function OrganizationSettingsPage() {
                                         <p className="text-xs md:text-[13px] lg:text-sm text-gray-500 font-medium max-w-md mt-1.5 opacity-80">Send an automated daily summary report to selected recipients.</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center shrink-0">
+                                <div className="flex items-center shrink-0 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0">
                                     <button
                                         onClick={() => toggleSetting('daily_report_enabled')}
                                         className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4"
@@ -1029,7 +1029,7 @@ export function OrganizationSettingsPage() {
                         </CardHeader>
                         <CardContent className="p-4 md:p-6 lg:p-8 space-y-6 md:space-y-6 lg:space-y-8">
                             <div className="space-y-4 sm:space-y-6">
-                                <div className="flex items-center justify-between p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <Clock className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -1042,7 +1042,7 @@ export function OrganizationSettingsPage() {
                                     <button
                                         onClick={() => toggleSetting('allow_manual_time_entry')}
                                         className={cn(
-                                            "w-10 h-5 sm:w-11 sm:h-6 rounded-full relative cursor-pointer transition-all duration-300 shrink-0 p-1",
+                                            "w-10 h-5 sm:w-11 sm:h-6 rounded-full relative cursor-pointer transition-all duration-300 shrink-0 p-1 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0",
                                             settings.allow_manual_time_entry ? "bg-brand-500 shadow-lg shadow-brand-100" : "bg-gray-200"
                                         )}
                                     >
@@ -1052,7 +1052,7 @@ export function OrganizationSettingsPage() {
                                         )} />
                                     </button>
                                 </div>
-                                <div className="flex items-center justify-between p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 md:p-5 lg:p-6 rounded-2xl md:rounded-[1.5rem] lg:rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md hover:border-brand-100 group">
                                     <div className="flex gap-4 md:gap-5 lg:gap-6 flex-1">
                                         <div className="p-3 md:p-3.5 lg:p-4 rounded-2xl bg-brand-50 text-brand-600 shrink-0 h-fit transition-transform group-hover:scale-110 duration-300 shadow-sm">
                                             <AlertCircle className="w-5 h-5 md:w-5.5 lg:w-6 md:h-5.5 lg:h-6" />
@@ -1065,7 +1065,7 @@ export function OrganizationSettingsPage() {
                                     <button
                                         onClick={() => toggleSetting('require_work_description')}
                                         className={cn(
-                                            "w-10 h-5 sm:w-11 sm:h-6 rounded-full relative cursor-pointer transition-all duration-300 shrink-0 p-1",
+                                            "w-10 h-5 sm:w-11 sm:h-6 rounded-full relative cursor-pointer transition-all duration-300 shrink-0 p-1 self-start sm:self-auto mt-2 sm:mt-0 ml-[60px] sm:ml-0",
                                             settings.require_work_description ? "bg-brand-500 shadow-lg shadow-brand-100" : "bg-gray-200"
                                         )}
                                     >
@@ -1106,7 +1106,7 @@ export function OrganizationSettingsPage() {
                             <CardDescription className="text-xs sm:text-sm">Define how work progress and utilization are measured.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 md:p-6 lg:p-8 space-y-8 md:space-y-8 lg:space-y-10">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
                                 <div className="space-y-4 md:space-y-5 lg:space-y-6">
                                     <div className="flex items-center justify-between p-4 md:p-4.5 lg:p-5 rounded-xl md:rounded-[1.25rem] lg:rounded-2xl bg-gray-50/50 border border-gray-100">
                                         <div className="space-y-1">
@@ -1483,9 +1483,9 @@ export function OrganizationSettingsPage() {
 
                             {/* Status List */}
                             <div className="space-y-6">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-md md:text-base lg:text-lg font-bold text-gray-900 tracking-tight">Active Workflow Pipeline</h3>
-                                    <Badge variant="outline" className="rounded-full border-gray-200 text-gray-400 font-bold px-3 py-1">
+                                <div className="flex flex-row items-start sm:items-center justify-between gap-3">
+                                    <h3 className="text-md md:text-base lg:text-lg font-bold text-gray-900 tracking-tight leading-snug">Active Workflow Pipeline</h3>
+                                    <Badge variant="outline" className="rounded-full border-gray-200 text-gray-400 font-bold px-3 py-1 shrink-0 mt-0.5 sm:mt-0">
                                         {statuses.length} Statuses
                                     </Badge>
                                 </div>

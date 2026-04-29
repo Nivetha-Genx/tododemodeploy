@@ -363,7 +363,7 @@ function NotificationListItem({ notification, onRead, onClick, onView }: { notif
             <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 w-full sm:w-auto mt-2 sm:mt-0 pt-2 sm:pt-0 border-t sm:border-0 border-gray-100/50 pl-12 sm:pl-0">
                 {/* Date/Time */}
                 <div className={cn(
-                    "flex flex-col items-end gap-0.5 text-[11px] font-bold uppercase tracking-wider min-w-[70px] sm:min-w-[80px]",
+                    "flex flex-col items-start sm:items-end gap-0.5 text-[11px] font-bold uppercase tracking-wider min-w-[70px] sm:min-w-[80px]",
                     isUnread ? "text-gray-600" : "text-gray-400"
                 )}>
                     <span className="flex items-center gap-1">

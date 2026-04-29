@@ -106,7 +106,7 @@ export function ArchivedTasksPage() {
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <Archive className="w-6 h-6 text-gray-500" />
-                        Archived Tasks
+                        Archived
                     </h1>
                     <p className="text-gray-500 mt-1">
                         Deleted tasks that were assigned to you
