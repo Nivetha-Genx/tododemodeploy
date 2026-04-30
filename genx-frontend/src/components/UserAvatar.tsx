@@ -25,7 +25,7 @@ const COLORS = [
 export function UserAvatar({ user, className = "h-8 w-8", fallbackClassName }: UserAvatarProps) {
     if (!user) {
         return (
-            <Avatar className={className}>
+            <Avatar className={className} title="Unassigned">
                 <AvatarFallback className={fallbackClassName}>?</AvatarFallback>
             </Avatar>
         )
@@ -36,7 +36,7 @@ export function UserAvatar({ user, className = "h-8 w-8", fallbackClassName }: U
     const colorClass = COLORS[colorIndex]
 
     return (
-        <Avatar className={className}>
+        <Avatar className={className} title={user.name || 'Unassigned'}>
             {user.avatar_url || user.avatar ? (
                 <AvatarImage src={user.avatar_url || user.avatar} alt={user.name || 'User'} />
             ) : null}

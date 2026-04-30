@@ -295,19 +295,9 @@ export const RichTextEditor = ({
                 showOnlyWhenEditable: false,
             }),
             Underline,
-            TextStyle.extend({
-                renderHTML({ HTMLAttributes }) {
-                    if (!HTMLAttributes.style) return ['span', HTMLAttributes, 0];
-                    return ['span', { ...HTMLAttributes, style: `${HTMLAttributes.style} !important` }, 0];
-                },
-            }),
+            TextStyle,
             Color,
-            Highlight.extend({
-                renderHTML({ HTMLAttributes }) {
-                    if (!HTMLAttributes.style) return ['mark', HTMLAttributes, 0];
-                    return ['mark', { ...HTMLAttributes, style: `${HTMLAttributes.style} !important` }, 0];
-                },
-            }).configure({ multicolor: true }),
+            Highlight.configure({ multicolor: true }),
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),

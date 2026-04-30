@@ -55,8 +55,8 @@ export function TaskRowCard({ task, onClick, showDuePrefix }: TaskRowCardProps) 
                 </div>
 
                 {/* Meta Info: Date, Project, Assignee */}
-                <div className="flex items-center gap-2 mt-0.5 overflow-hidden">
-                    <div className="flex items-center gap-2 text-slate-400 text-[11px] font-medium min-w-0">
+                <div className="flex items-center gap-2 mt-0.5">
+                    <div className="flex flex-wrap items-center gap-2 text-slate-400 text-[11px] font-medium min-w-0 w-full">
                         <div className={cn(
                             "flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100 shrink-0",
                             isOverdueTask ? "text-red-600 font-bold bg-red-50 border-red-50" : "text-slate-500"
@@ -100,7 +100,7 @@ export function TaskRowCard({ task, onClick, showDuePrefix }: TaskRowCardProps) 
                     </div>
 
                     {/* Footer Progress Text */}
-                    <div className="flex justify-between items-center mt-2.5 text-[11px] font-semibold">
+                    <div className="flex flex-wrap justify-between items-center gap-2 mt-2.5 text-[11px] font-semibold">
                         <div className="flex items-center gap-1.5">
                             <span className="text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded-full text-[10px]">{Math.round(progress)}%</span>
                             <span

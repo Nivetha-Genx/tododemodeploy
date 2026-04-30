@@ -329,11 +329,11 @@
 }
 
 .Toastify__progress-bar--success {
-  background: #22c55e !important;
+  background: #09953c !important;
 }
 
 .Toastify__progress-bar--error {
-  background: #ef4444 !important;
+  background: #eb3535 !important;
   /* brighter red for white bg */
 }
 
