@@ -183,7 +183,7 @@ export function ProjectSettingsModal() {
     if (isFetching) {
         return (
             <Dialog open={activeModal === 'projectSettings'} onOpenChange={(open) => !open && closeModal()}>
-                <DialogContent className="px-4 py-6 sm:p-6">
+                <DialogContent className="sm:max-w-lg overflow-x-hidden">
                     <DialogHeader>
                         <DialogTitle>Project Settings</DialogTitle>
                         <DialogDescription>
@@ -198,24 +198,24 @@ export function ProjectSettingsModal() {
 
     return (
         <Dialog open={activeModal === 'projectSettings'} onOpenChange={(open) => !open && closeModal()}>
-            <DialogContent className="px-4 py-6 sm:p-6">
-                <DialogHeader>
+            <DialogContent className="sm:max-w-lg overflow-x-hidden">
+                <DialogHeader className="pr-6 sm:pr-0 text-left">
                     <DialogTitle>Project Settings</DialogTitle>
                     <DialogDescription>
                         Manage project details and configuration.
                     </DialogDescription>
                 </DialogHeader>
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'details' | 'members')} className="w-full">
-                    <TabsList className="bg-gray-100/50 p-1 rounded-xl sm:rounded-full border border-gray-200/50 flex flex-row sm:flex-row h-auto gap-1 shadow-sm w-full sm:w-max mb-6 overflow-x-auto no-scrollbar justify-start sm:justify-center">
+                    <TabsList className="bg-gray-100/50 p-1 rounded-xl sm:rounded-full border border-gray-200/50 flex flex-row h-auto gap-1 shadow-sm w-full mb-6 overflow-x-auto no-scrollbar justify-start">
                         <TabsTrigger
                             value="details"
-                            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-lg sm:rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black whitespace-nowrap"
+                            className="flex-1 px-2 sm:px-6 py-2 rounded-lg sm:rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black whitespace-nowrap"
                         >
                             Project Details
                         </TabsTrigger>
                         <TabsTrigger
                             value="members"
-                            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-lg sm:rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black whitespace-nowrap"
+                            className="flex-1 px-2 sm:px-6 py-2 rounded-lg sm:rounded-full bg-transparent data-[state=active]:bg-brand-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all font-bold text-[10px] sm:text-xs uppercase tracking-widest text-black whitespace-nowrap"
                         >
                             Manage Members
                         </TabsTrigger>
@@ -251,7 +251,7 @@ export function ProjectSettingsModal() {
 
                         <div className="space-y-2">
                             <Label>Project Icon</Label>
-                            <div className="flex items-start gap-4">
+                            <div className="flex flex-row items-start gap-3">
                                 <div
                                     className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center bg-gray-50 overflow-hidden relative group cursor-pointer hover:border-brand-500 hover:bg-brand-50/30 transition-all"
                                     onClick={() => fileInputRef.current?.click()}
@@ -282,7 +282,7 @@ export function ProjectSettingsModal() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="flex-1 space-y-1">
+                                <div className="flex-1 min-w-0 space-y-1">
                                     <p className="text-xs text-black">
                                         Upload a project icon to make it easily recognizable.
                                     </p>
@@ -320,31 +320,31 @@ export function ProjectSettingsModal() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label htmlFor="startDate">Start Date</Label>
-                                <div className="relative">
+                                <div className="relative overflow-hidden">
                                     <ReactDatePicker
                                         selected={startDate}
                                         onChange={(date: Date | null) => setStartDate(date)}
                                         dateFormat="MMM d, yyyy"
                                         placeholderText="Select start date"
                                         minDate={getTodayDate()}
-                                        className="w-full h-10 px-3 border border-input bg-background rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="w-full h-10 px-3 pr-8 border border-input bg-background rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                         isClearable
                                     />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="endDate">End Date</Label>
-                                <div className="relative">
+                                <div className="relative overflow-hidden">
                                     <ReactDatePicker
                                         selected={endDate}
                                         onChange={(date: Date | null) => setEndDate(date)}
                                         dateFormat="MMM d, yyyy"
                                         placeholderText="Select end date"
                                         minDate={startDate ? new Date(Math.max(startDate.getTime(), getTodayDate().getTime())) : getTodayDate()}
-                                        className="w-full h-10 px-3 border border-input bg-background rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="w-full h-10 px-3 pr-8 border border-input bg-background rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                         isClearable
                                     />
                                 </div>
@@ -407,7 +407,7 @@ export function ProjectSettingsModal() {
                     </TabsContent>
 
                     <TabsContent value="members" className="space-y-4 py-4">
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
                             <h4 className="text-sm font-medium text-gray-900">Project Members</h4>
                             <Button
                                 variant="outline"
@@ -420,11 +420,11 @@ export function ProjectSettingsModal() {
                         <div className="space-y-2 max-h-64 overflow-y-auto">
                             {project?.projectMembers && project.projectMembers.length > 0 ? (
                                 project.projectMembers.map(member => (
-                                    <div key={member.id} className="flex items-center justify-between gap-3 py-2">
-                                        <div className="flex items-center gap-3">
-                                            <UserAvatar user={member.user} className="h-8 w-8" />
-                                            <div>
-                                                <p className="text-sm font-medium text-gray-900">
+                                    <div key={member.id} className="flex items-center justify-between gap-2 py-2 min-w-0">
+                                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                                            <UserAvatar user={member.user} className="h-8 w-8 shrink-0" />
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-medium text-gray-900 truncate">
                                                     {member.user?.name || 'Unknown User'}
                                                 </p>
                                                 <p className="text-xs text-black capitalize">
@@ -451,10 +451,10 @@ export function ProjectSettingsModal() {
                         </div>
                     </TabsContent>
                 </Tabs>
-                <DialogFooter className="flex flex-row justify-end gap-2">
-                    <Button variant="outline" onClick={closeModal} disabled={isLoading}>Cancel</Button>
+                <DialogFooter className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+                    <Button variant="outline" onClick={closeModal} disabled={isLoading} className="w-full sm:w-auto order-2 sm:order-1">Cancel</Button>
                     {activeTab === 'details' && (
-                        <Button onClick={handleSubmit} disabled={isLoading}>
+                        <Button onClick={handleSubmit} disabled={isLoading} className="w-full sm:w-auto order-1 sm:order-2">
                             {isLoading ? 'Saving...' : 'Save Changes'}
                         </Button>
                     )}

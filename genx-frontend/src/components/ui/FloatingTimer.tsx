@@ -5,7 +5,22 @@ import { cn } from '@/lib/utils';
 
 export const FloatingTimer: React.FC = () => {
     const { seconds, isRunning, isVisible, startTimer, pauseTimer, resetTimer, toggleVisibility } = useTimerStore();
-    const [position, setPosition] = useState({ x: window.innerWidth - 380, y: window.innerHeight - 130 });
+    const [position, setPosition] = useState(() => {
+        const saved = localStorage.getItem('timer-position');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                // Validate if it's within current window
+                return {
+                    x: Math.min(parsed.x, window.innerWidth - 300),
+                    y: Math.min(parsed.y, window.innerHeight - 80)
+                };
+            } catch (e) {
+                console.error('Failed to parse timer position', e);
+            }
+        }
+        return { x: window.innerWidth - 320, y: window.innerHeight - 100 };
+    });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
@@ -29,13 +44,24 @@ export const FloatingTimer: React.FC = () => {
         });
     };
 
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        const touch = e.touches[0];
+        setDragOffset({
+            x: touch.clientX - position.x,
+            y: touch.clientY - position.y
+        });
+    };
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDragging) {
-                setPosition({
+                const newPos = {
                     x: Math.max(0, Math.min(window.innerWidth - 300, e.clientX - dragOffset.x)),
                     y: Math.max(0, Math.min(window.innerHeight - 80, e.clientY - dragOffset.y))
-                });
+                };
+                setPosition(newPos);
+                localStorage.setItem('timer-position', JSON.stringify(newPos));
             }
         };
 
@@ -43,14 +69,46 @@ export const FloatingTimer: React.FC = () => {
             setIsDragging(false);
         };
 
+        const handleTouchMove = (e: TouchEvent) => {
+            if (isDragging) {
+                // Prevent scrolling while dragging
+                if (e.cancelable) e.preventDefault();
+                
+                const touch = e.touches[0];
+                const newPos = {
+                    x: Math.max(0, Math.min(window.innerWidth - 300, touch.clientX - dragOffset.x)),
+                    y: Math.max(0, Math.min(window.innerHeight - 80, touch.clientY - dragOffset.y))
+                };
+                setPosition(newPos);
+                localStorage.setItem('timer-position', JSON.stringify(newPos));
+            }
+        };
+
+        const handleTouchEnd = () => {
+            setIsDragging(false);
+        };
+
+        const handleResize = () => {
+            setPosition(prev => ({
+                x: Math.max(0, Math.min(window.innerWidth - 300, prev.x)),
+                y: Math.max(0, Math.min(window.innerHeight - 80, prev.y))
+            }));
+        };
+
         if (isDragging) {
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove, { passive: false });
+            window.addEventListener('touchend', handleTouchEnd);
         }
+        window.addEventListener('resize', handleResize);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('resize', handleResize);
         };
     }, [isDragging, dragOffset]);
 
@@ -74,10 +132,10 @@ export const FloatingTimer: React.FC = () => {
                 userSelect: 'none'
             }}
         >
-            {/* Drag Handle */}
             <div
                 onMouseDown={handleMouseDown}
-                className="cursor-grab active:cursor-grabbing p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors"
+                onTouchStart={handleTouchStart}
+                className="cursor-grab active:cursor-grabbing p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors touch-none"
             >
                 <GripVertical size={16} className="text-slate-400" />
             </div>

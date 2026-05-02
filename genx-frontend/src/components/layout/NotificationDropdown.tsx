@@ -76,7 +76,7 @@ export function NotificationDropdown() {
                     )}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] sm:max-w-[500px] p-0 gap-0 overflow-hidden border-none shadow-2xl rounded-2xl bg-white animate-in zoom-in-95 duration-200">
+            <DialogContent className="w-[calc(100vw-32px)] sm:max-w-[500px] p-0 gap-0 overflow-hidden border-none shadow-2xl rounded-3xl bg-white animate-in zoom-in-95 duration-200 flex flex-col max-h-[85vh] sm:max-h-[90vh]">
                 <DialogHeader className="p-4 sm:p-6 pb-2 sm:pb-4 flex flex-row items-center justify-between space-y-0">
                     <DialogTitle className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Notifications</DialogTitle>
                 </DialogHeader>
@@ -85,19 +85,19 @@ export function NotificationDropdown() {
                     <TabsList className="w-full flex h-auto p-0 bg-gray-50/50 border-b border-gray-100 rounded-none shrink-0">
                         <TabsTrigger
                             value="unread"
-                            className="flex-1 py-3 sm:py-4 bg-transparent border-b-2 border-transparent data-[state=active]:border-brand-600 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-sm rounded-none text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500 transition-all hover:text-brand-500 hover:bg-white/50"
+                            className="flex-1 py-3 sm:py-4 bg-transparent border-b-2 border-transparent data-[state=active]:border-brand-600 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-sm rounded-none text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-500 transition-all hover:text-brand-500 hover:bg-white/50"
                         >
-                            <span className="hidden sm:inline">New & </span>Unread ({unreadCount})
+                            <span className="hidden xs:inline">New & </span>Unread ({unreadCount})
                         </TabsTrigger>
                         <TabsTrigger
                             value="read"
-                            className="flex-1 py-3 sm:py-4 bg-transparent border-b-2 border-transparent data-[state=active]:border-brand-600 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-sm rounded-none text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500 transition-all hover:text-brand-500 hover:bg-white/50"
+                            className="flex-1 py-3 sm:py-4 bg-transparent border-b-2 border-transparent data-[state=active]:border-brand-600 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-sm rounded-none text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-500 transition-all hover:text-brand-500 hover:bg-white/50"
                         >
-                            <span className="hidden sm:inline">Archive & </span>Read ({Math.max(0, totalNotifications - unreadCount)})
+                            <span className="hidden xs:inline">Archive & </span>Read ({Math.max(0, totalNotifications - unreadCount)})
                         </TabsTrigger>
                     </TabsList>
 
-                    <ScrollArea className="h-[60vh] sm:h-[500px] w-full">
+                    <ScrollArea className="flex-1 min-h-[300px] sm:h-[500px] w-full">
                         <TabsContent value="unread" className="m-0 focus-visible:ring-0 w-full overflow-hidden">
                             {unreadNotifications.length > 0 ? (
                                 <div className="divide-y divide-gray-50 flex flex-col w-full">
@@ -193,7 +193,7 @@ function NotificationItem({ notification, onClick }: { notification: any, onClic
 
 function EmptyState({ message }: { message: string }) {
     return (
-        <div className="flex flex-col items-center justify-center h-[450px] p-8 text-center bg-white">
+        <div className="flex flex-col items-center justify-center h-full min-h-[350px] p-8 text-center bg-white">
             <div className="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 transition-all hover:rotate-12 duration-500 shadow-inner">
                 <Bell className="h-10 w-10 text-gray-200" strokeWidth={1.5} />
             </div>
