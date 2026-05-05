@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import {
     Avatar,
     AvatarImage,
@@ -28,7 +28,8 @@ import { NotificationDropdown } from './NotificationDropdown'
 
 export function Header() {
     const navigate = useNavigate()
-    const { user, logout } = useAuthStore()
+    const { user, logout, activeOrganizationId } = useAuthStore()
+    const isSuperAdminGlobal = user?.role === 'super_admin' && !activeOrganizationId
     const { openModal, openTaskDrawer } = useUIStore()
     const { selectTask } = useTaskUIStore()
     const { isRunning, seconds, toggleVisibility } = useTimerStore()
@@ -217,19 +218,21 @@ export function Header() {
     return (
         <header className="sticky top-0 z-40 flex items-center justify-between h-16 px-4 sm:px-6 bg-white border-b border-gray-200 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
             {/* Mobile Search Toggle */}
-            <div className="flex lg:hidden items-center">
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsMobileSearchVisible(true)}
-                    className="text-gray-500 hover:text-brand-600 hover:bg-brand-50 transition-colors"
-                >
-                    <Search className="w-5 h-5" />
-                </Button>
-            </div>
+            {!isSuperAdminGlobal && (
+                <div className="flex lg:hidden items-center">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setIsMobileSearchVisible(true)}
+                        className="text-gray-500 hover:text-brand-600 hover:bg-brand-50 transition-colors"
+                    >
+                        <Search className="w-5 h-5" />
+                    </Button>
+                </div>
+            )}
 
             {/* Mobile Search Overlay */}
-            {isMobileSearchVisible && (
+            {!isSuperAdminGlobal && isMobileSearchVisible && (
                 <div 
                     ref={mobileSearchRef}
                     className="absolute inset-0 z-50 bg-white flex items-center px-4 gap-3 animate-in fade-in slide-in-from-top-4 duration-300 lg:hidden"
@@ -264,63 +267,71 @@ export function Header() {
             )}
 
             {/* Desktop Search */}
-            <div className="hidden lg:flex items-center flex-1 max-w-md relative" ref={searchRef}>
-                <div className="relative w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                        type="text"
-                        placeholder="Search tasks, descriptions..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onFocus={() => searchQuery.trim().length >= 2 && setShowResults(true)}
-                        className="w-full h-10 pl-10 pr-4 text-base bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
-                    />
-                </div>
-
-                {showResults && (
-                    <div className="absolute top-full left-0 right-0 mt-3 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-2xl shadow-brand-100/50 z-50 overflow-hidden animate-in fade-in zoom-in-95 slide-in-from-top-4 duration-200 min-w-[440px]">
-                        {renderSearchResults(false)}
+            {!isSuperAdminGlobal ? (
+                <div className="hidden lg:flex items-center flex-1 max-w-md relative" ref={searchRef}>
+                    <div className="relative w-full">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search tasks, descriptions..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onFocus={() => searchQuery.trim().length >= 2 && setShowResults(true)}
+                            className="w-full h-10 pl-10 pr-4 text-base bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                        />
                     </div>
-                )}
-            </div>
+
+                    {showResults && (
+                        <div className="absolute top-full left-0 right-0 mt-3 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-2xl shadow-brand-100/50 z-50 overflow-hidden animate-in fade-in zoom-in-95 slide-in-from-top-4 duration-200 min-w-[440px]">
+                            {renderSearchResults(false)}
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="flex-1" />
+            )}
 
             {/* Right section */}
             <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 pr-1 sm:pr-2">
-                <Button
-                    onClick={() => openModal('createTask')}
-                    className="hidden md:flex items-center gap-2 px-4 bg-brand-600 hover:bg-brand-700 text-white shadow-sm h-10"
-                >
-                    <Plus className="w-4 h-4" />
-                    <span>Create Task</span>
-                </Button>
-                <div className="relative group/timer">
-                    {isRunning && (
-                        <div className="absolute inset-0 bg-brand-600/20 rounded-lg blur-lg pointer-events-none" />
-                    )}
-                    <Button
-                        onClick={() => toggleVisibility(true)}
-                        variant={isRunning ? "secondary" : "outline"}
-                        className={cn(
-                            "flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 transition-all duration-500 relative z-10 h-9 sm:h-10",
-                            isRunning
-                                ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-brand-700 dark:border-brand-400"
-                                : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 text-slate-600 dark:text-slate-400 shadow-sm"
-                        )}
-                    >
-                        <Clock className={cn("w-4 h-4 text-slate-500 transition-colors duration-500", isRunning && "text-brand-600 dark:text-brand-400")} />
-                        <span className={cn("hidden xs:inline sm:inline transition-all duration-500", isRunning && "font-bold text-slate-900 dark:text-white")}>
-                            {isRunning ? (
-                                <span className="font-mono tabular-nums">
-                                    {Math.floor(seconds / 3600) > 0 ? `${Math.floor(seconds / 3600)}:` : ''}
-                                    {String(Math.floor((seconds % 3600) / 60)).padStart(2, '0')}:
-                                    {String(seconds % 60).padStart(2, '0')}
+                {!isSuperAdminGlobal && (
+                    <>
+                        <Button
+                            onClick={() => openModal('createTask')}
+                            className="hidden md:flex items-center gap-2 px-4 bg-brand-600 hover:bg-brand-700 text-white shadow-sm h-10"
+                        >
+                            <Plus className="w-4 h-4" />
+                            <span>Create Task</span>
+                        </Button>
+                        <div className="relative group/timer">
+                            {isRunning && (
+                                <div className="absolute inset-0 bg-brand-600/20 rounded-lg blur-lg pointer-events-none" />
+                            )}
+                            <Button
+                                onClick={() => toggleVisibility(true)}
+                                variant={isRunning ? "secondary" : "outline"}
+                                className={cn(
+                                    "flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 transition-all duration-500 relative z-10 h-9 sm:h-10",
+                                    isRunning
+                                        ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-brand-700 dark:border-brand-400"
+                                        : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 text-slate-600 dark:text-slate-400 shadow-sm"
+                                )}
+                            >
+                                <Clock className={cn("w-4 h-4 text-slate-500 transition-colors duration-500", isRunning && "text-brand-600 dark:text-brand-400")} />
+                                <span className={cn("hidden xs:inline sm:inline transition-all duration-500", isRunning && "font-bold text-slate-900 dark:text-white")}>
+                                    {isRunning ? (
+                                        <span className="font-mono tabular-nums">
+                                            {Math.floor(seconds / 3600) > 0 ? `${Math.floor(seconds / 3600)}:` : ''}
+                                            {String(Math.floor((seconds % 3600) / 60)).padStart(2, '0')}:
+                                            {String(seconds % 60).padStart(2, '0')}
+                                        </span>
+                                    ) : "Timer"}
                                 </span>
-                            ) : "Timer"}
-                        </span>
-                    </Button>
-                </div>
+                            </Button>
+                        </div>
 
-                <NotificationDropdown />
+                        <NotificationDropdown />
+                    </>
+                )}
 
                 {/* User Menu */}
                 <div className="relative">

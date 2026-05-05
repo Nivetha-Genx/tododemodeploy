@@ -111,7 +111,7 @@ export function LeaderboardPage() {
                 <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-50/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
                 <div className="px-5 py-4 sm:px-6 border-b border-gray-100/80 bg-white/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
-                    <h2 className="text-lg font-extrabold text-gray-900 flex items-center gap-2.5">
+                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2.5">
                         Rankings for {monthNames[month - 1]} {year}
                     </h2>
                     <div className="text-sm font-bold text-gray-400 uppercase tracking-widest bg-gray-50/80 px-3 py-1.5 rounded-lg border border-gray-100">
@@ -198,7 +198,7 @@ export function LeaderboardPage() {
                                         {/* User Info */}
                                         <div className="flex-1 min-w-0 flex flex-col justify-center">
                                             <div className="flex items-center gap-2">
-                                                <p className="font-extrabold text-gray-900 text-base sm:text-lg truncate group-hover:text-brand-700 transition-colors">
+                                                <p className="font-bold text-gray-900 text-base sm:text-lg truncate group-hover:text-brand-700 transition-colors">
                                                     {user.name}
                                                 </p>
                                             </div>
@@ -215,10 +215,10 @@ export function LeaderboardPage() {
                                                 "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border flex items-center gap-1 shadow-inner transition-colors",
                                                 currentStyle.points
                                             )}>
-                                                <span className="font-black text-lg sm:text-2xl tabular-nums leading-none tracking-tight">
+                                                <span className="font-bold text-lg sm:text-2xl tabular-nums leading-none tracking-tight">
                                                     {user.points}
                                                 </span>
-                                                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest opacity-80 mt-0.5 sm:mt-1">
+                                                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest opacity-80 mt-0.5 sm:mt-1">
                                                     PTS
                                                 </span>
                                             </div>

@@ -1867,7 +1867,7 @@ export function CreateTaskModal() {
     if (isDesktop) {
         return (
             <Dialog open={activeModal === 'createTask' || activeModal === 'editTask'} onOpenChange={(open) => !open && closeModal()}>
-                <DialogContent className={cn("max-w-3xl p-0 gap-0", isAnySelectionOpen && "blur-sm")}>
+                <DialogContent className={cn("max-w-3xl p-0 gap-0 overflow-hidden flex flex-col", isAnySelectionOpen && "blur-sm")}>
                     <DialogHeader className="px-5 pt-5 pb-3 border-b border-gray-100">
                         <DialogTitle className="text-lg font-semibold text-gray-900">
                             {isEditMode ? 'Edit Task' : 'Create A New Task'}

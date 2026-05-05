@@ -38,8 +38,17 @@ export interface ProjectMember {
 export interface Organization {
     id: string
     name: string
+    slug?: string
     logo?: string
+    is_active: boolean
     expectedHoursPerDay: number
+    users_count?: number
+    projects_count?: number
+    tasks_count?: number
+    memberCount?: number
+    timezone?: string
+    workingDays?: string[]
+    status?: 'active' | 'suspended'
     createdAt: string
 }
 

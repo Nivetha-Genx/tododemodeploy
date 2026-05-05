@@ -49,7 +49,7 @@ const navItems: NavItem[] = [
     { title: 'Leaderboard', href: '/leaderboard', icon: Trophy, scope: 'org' },
     { title: 'Team Board', href: '/team-board', icon: Kanban, scope: 'org' },
     { title: 'Calendar', href: '/calendar', icon: Calendar, scope: 'org' },
-    { title: 'Reports', href: '/reports', icon: BarChart3, roles: ['admin', 'team_lead', 'super_admin'], scope: 'both' },
+    { title: 'Reports', href: '/reports', icon: BarChart3, roles: ['admin', 'team_lead', 'super_admin'], scope: 'org' },
     { title: 'Approvals', href: '/approvals', icon: ClipboardCheck, roles: ['admin', 'team_lead', 'super_admin'], scope: 'org' },
     { title: 'Team', href: '/team', icon: Users, roles: ['admin', 'super_admin'], scope: 'org' },
     { title: 'Roles', href: '/roles', icon: ShieldCheck, roles: ['admin', 'super_admin'], scope: 'org' },
@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
     const location = useLocation()
-    const { user, activeOrganizationId } = useAuthStore()
+    const { user, activeOrganizationId, activeOrganizationName } = useAuthStore()
     const { sidebarCollapsed, toggleSidebar, sidebarCounts, fetchSidebarCounts } = useUIStore()
     const [sprintEnabled, setSprintEnabled] = useState(false)
 
@@ -136,6 +136,7 @@ export function Sidebar() {
     const mainNavItems = itemsWithSprint.filter((item) => item.href !== '/settings')
 
     const organizationName =
+        activeOrganizationName ||
         user?.organizationName ||
         (user as any)?.organization?.name ||
         (user as any)?.organization_name ||

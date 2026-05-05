@@ -1,4 +1,4 @@
-import { useAuthStore, isAdmin, isTeamLead, useUIStore, useTaskUIStore, getAccessLevel, useStatusStore } from '@/stores'
+import { useAuthStore, isAdmin, isTeamLead, isSuperAdmin, useUIStore, useTaskUIStore, getAccessLevel, useStatusStore } from '@/stores'
 import {
     Card,
     CardHeader,
@@ -31,8 +31,6 @@ import {
     LayoutDashboard,
 } from 'lucide-react'
 
-// import { priorityConfig } from '@/mock'
-
 import { dashboardApi } from '@/api/dashboard'
 import { organizationsApi } from '@/api/organizations'
 import { mapBackendTaskToFrontend } from '@/api/tasks'
@@ -42,6 +40,7 @@ import { Task, TaskTemplate, ExtraHourApproval } from '@/types'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FileStack, Plus } from 'lucide-react'
+import { SuperAdminDashboard } from './components/SuperAdminDashboard'
 
 function CompactTaskCard({ task, onClick, showDuePrefix, showTime }: { task: Task; onClick?: () => void; showDuePrefix?: boolean; showTime?: boolean }) {
     const { getStatusStyles } = useStatusStore()
@@ -109,7 +108,7 @@ function CompactTaskCard({ task, onClick, showDuePrefix, showTime }: { task: Tas
 }
 
 export function DashboardPage() {
-    const { user } = useAuthStore()
+    const { user, activeOrganizationId } = useAuthStore()
     const { openTaskDrawer, openModal } = useUIStore()
     const { selectTask } = useTaskUIStore()
     const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day')
@@ -314,7 +313,7 @@ export function DashboardPage() {
         }
     }, [user, period])
 
-    const isAdminOrTeamLead = isAdmin(getAccessLevel(user)) || isTeamLead(getAccessLevel(user))
+    const isAdminOrTeamLead = isAdmin(getAccessLevel(user)) || isTeamLead(getAccessLevel(user)) || (isSuperAdmin(getAccessLevel(user)) && !!activeOrganizationId)
     const expectedHours = getExpectedHours(period)
     const loggedHours = personalStats?.total_time_logged_hours || 0
     const productivityPercentage = Math.min(
@@ -324,6 +323,14 @@ export function DashboardPage() {
 
     if (isLoading) {
         return <PageSkeleton />
+    }
+
+    // Super admin in global context → show SuperAdmin Dashboard
+    // Super admin switched into an org -> show regular admin dashboard
+    const hasOrgContext = !!activeOrganizationId || !!user?.organizationId || !!(user as any)?.organization_id
+    
+    if (isSuperAdmin(getAccessLevel(user)) && !hasOrgContext) {
+        return <SuperAdminDashboard />
     }
 
     const topPerformersCard = (
@@ -395,19 +402,19 @@ export function DashboardPage() {
                                             </span>
                                             <Avatar className={cn("w-12 h-12 sm:w-16 sm:h-16 shadow-xl transition-transform duration-300 group-hover:scale-110", styles.avatar)}>
                                                 <AvatarImage src={entry.avatar_url ?? undefined} />
-                                                <AvatarFallback className="text-base font-black bg-gray-50">{getInitials(entry.name)}</AvatarFallback>
+                                                <AvatarFallback className="text-base font-bold bg-gray-50">{getInitials(entry.name)}</AvatarFallback>
                                             </Avatar>
                                         </div>
 
-                                        <p className="text-[11px] sm:text-sm font-black text-gray-900 truncate w-full text-center px-1 tracking-tight" title={entry.name}>
+                                        <p className="text-[11px] sm:text-sm font-bold text-gray-900 truncate w-full text-center px-1 tracking-tight" title={entry.name}>
                                             {entry.name}
                                         </p>
 
-                                        <div className={cn("mt-1.5 px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest border", styles.pts)}>
+                                        <div className={cn("mt-1.5 px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest border", styles.pts)}>
                                             {entry.points} PTS
                                         </div>
                                     </div>
-                                    <div className={cn('w-full rounded-b-2xl flex items-center justify-center py-2.5 font-black text-sm tracking-tighter', styles.rankBg)}>
+                                    <div className={cn('w-full rounded-b-2xl flex items-center justify-center py-2.5 font-bold text-sm tracking-tighter', styles.rankBg)}>
                                         RANK #{rank}
                                     </div>
                                 </div>
@@ -426,6 +433,8 @@ export function DashboardPage() {
             </CardContent>
         </Card>
     )
+
+
 
     return (
         <div className="space-y-6">
@@ -574,10 +583,10 @@ export function DashboardPage() {
                                             strokeWidth={7}
                                             color="#069a69ff"
                                         >
-                                            <span className="text-sm font-black text-slate-900">{productivityPercentage}%</span>
+                                            <span className="text-sm font-bold text-slate-900">{productivityPercentage}%</span>
                                         </CircularProgress>
                                         <div className="flex flex-col flex-1 min-w-0">
-                                            <p className="text-2xl font-black text-slate-900 tracking-tight">
+                                            <p className="text-2xl font-bold text-slate-900 tracking-tight">
                                                 {formatHoursMinutes(loggedHours)}
                                             </p>
                                             <p className="text-xs font-semibold text-slate-400 mt-0.5">of {formatHoursMinutes(expectedHours)} expected</p>
@@ -599,7 +608,7 @@ export function DashboardPage() {
                                             strokeWidth={7}
                                             color="#069a69ff"
                                         >
-                                            <span className="text-sm font-black text-slate-900">
+                                            <span className="text-sm font-bold text-slate-900">
                                                 {personalStats?.task_stats ? Math.round(calculateProgress(
                                                     personalStats.task_stats.completed_in_period ?? 0,
                                                     personalStats.task_stats.relevant_tasks_count ?? personalStats.task_stats.total ?? 1
@@ -607,7 +616,7 @@ export function DashboardPage() {
                                             </span>
                                         </CircularProgress>
                                         <div className="flex flex-col flex-1 min-w-0">
-                                            <p className="text-2xl font-black text-slate-900 tracking-tight">
+                                            <p className="text-2xl font-bold text-slate-900 tracking-tight">
                                                 {personalStats?.task_stats ? (personalStats.task_stats.completed_in_period ?? 0) : 0}
                                                 <span className="text-xs font-semibold text-slate-400 ml-1">/ {personalStats?.task_stats ? (personalStats.task_stats.relevant_tasks_count ?? personalStats.task_stats.total ?? 0) : 1}</span>
                                             </p>
@@ -629,7 +638,7 @@ export function DashboardPage() {
                                             strokeWidth={7}
                                             color="#3b82f6"
                                         >
-                                            <span className="text-sm font-black text-slate-900">
+                                            <span className="text-sm font-bold text-slate-900">
                                                 {personalStats?.task_stats ? Math.round(calculateProgress(
                                                     (personalStats.task_stats.open ?? 0) + (personalStats.task_stats.in_progress ?? 0),
                                                     personalStats.task_stats.total ?? 1
@@ -637,7 +646,7 @@ export function DashboardPage() {
                                             </span>
                                         </CircularProgress>
                                         <div className="flex flex-col flex-1 min-w-0">
-                                            <p className="text-2xl font-black text-slate-900 tracking-tight">
+                                            <p className="text-2xl font-bold text-slate-900 tracking-tight">
                                                 {personalStats?.task_stats ? ((personalStats.task_stats.open ?? 0) + (personalStats.task_stats.in_progress ?? 0)) : 0}
                                             </p>
                                             <p className="text-xs font-medium text-slate-400 mt-0.5">
@@ -665,7 +674,7 @@ export function DashboardPage() {
                                             color={((personalStats?.task_stats?.overdue ?? 0) || overdueTasks.length) > 0 ? "#de1313ff" : "#069a69ff"}
                                         >
                                             <span className={cn(
-                                                "text-sm font-black",
+                                                "text-sm font-bold",
                                                 ((personalStats?.task_stats?.overdue ?? 0) || overdueTasks.length) > 0 ? "text-red-600" : "text-slate-900"
                                             )}>
                                                 {((personalStats?.task_stats?.overdue ?? 0) || overdueTasks.length) > 0
@@ -677,7 +686,7 @@ export function DashboardPage() {
                                         </CircularProgress>
                                         <div className="flex flex-col flex-1 min-w-0">
                                             <p className={cn(
-                                                "text-2xl font-black tracking-tight",
+                                                "text-2xl font-bold tracking-tight",
                                                 ((personalStats?.task_stats?.overdue ?? 0) || overdueTasks.length) > 0 ? "text-red-600" : "text-slate-900"
                                             )}>
                                                 {personalStats?.task_stats?.overdue ?? overdueTasks.length}
@@ -702,7 +711,7 @@ export function DashboardPage() {
                             {/* Today's Tasks */}
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                                    <CardTitle className="text-lg flex items-center gap-2">
+                                    <CardTitle className="text-lg font-bold flex items-center gap-2">
                                         <Calendar className="w-5 h-5 text-brand-600" />
                                         Today's Tasks
                                     </CardTitle>
@@ -734,7 +743,7 @@ export function DashboardPage() {
                             {/* Overdue Tasks */}
                             <Card className={cn(overdueTasks.length > 0)}>
                                 <CardHeader className="flex flex-row items-center justify-between pb-4">
-                                    <CardTitle className="text-lg flex items-center gap-2">
+                                    <CardTitle className="text-lg font-bold flex items-center gap-2">
                                         <Clock className="w-5 h-5 text-red-600" />
                                         Overdue Tasks
                                     </CardTitle>
@@ -771,7 +780,7 @@ export function DashboardPage() {
                                 <div className="grid grid-cols-[1fr_auto] items-center gap-x-3 mb-4">
                                     <div className="flex items-center gap-3 min-w-0">
                                         <FileCheck className="w-5 h-5 text-amber-600 shrink-0" />
-                                        <CardTitle className="text-xl font-black text-slate-900 tracking-tight truncate">
+                                        <CardTitle className="text-xl font-bold text-slate-900 tracking-tight truncate">
                                             Approvals
                                         </CardTitle>
                                     </div>
