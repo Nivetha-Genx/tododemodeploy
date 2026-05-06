@@ -225,6 +225,8 @@ export function TaskDetailDrawer() {
     const [minutesInput, setMinutesInput] = useState('')
     const [estimationError, setEstimationError] = useState<string | null>(null)
     const [sprintEnabled, setSprintEnabled] = useState(false)
+    const [allowManualTimeEntry, setAllowManualTimeEntry] = useState(true)
+    const [requireWorkDescription, setRequireWorkDescription] = useState(true)
     const [sprints, setSprints] = useState<{ id: string; name: string; start_date: string; end_date: string }[]>([])
     const [isDescriptionEditorActive, setIsDescriptionEditorActive] = useState(false)
     const wasDescriptionEditedRef = useRef(false)
@@ -318,17 +320,25 @@ export function TaskDetailDrawer() {
             const historyRes = { success: true, data: fullTaskData.history ?? [] }
             const timeLogsRes = { success: true, data: fullTaskData.time_logs ?? [] }
             const pendingRequestsRes = { success: true, data: fullTaskData.pending_due_date_requests ?? [] }
-            if (settingsRes?.success && settingsRes.data?.sprint_enabled) {
-                setSprintEnabled(true)
-                try {
-                    const sprintsRes = await sprintsApi.getAll({ filter: 'all', per_page: 50 })
-                    const list = sprintsRes?.data?.data ?? sprintsRes?.data ?? []
-                    setSprints(Array.isArray(list) ? list : [])
-                } catch {
+            if (settingsRes?.success && settingsRes.data) {
+                setSprintEnabled(!!settingsRes.data.sprint_enabled)
+                setAllowManualTimeEntry(settingsRes.data.allow_manual_time_entry ?? true)
+                setRequireWorkDescription(settingsRes.data.require_work_description ?? true)
+                if (settingsRes.data.sprint_enabled) {
+                    try {
+                        const sprintsRes = await sprintsApi.getAll({ filter: 'all', per_page: 50 })
+                        const list = sprintsRes?.data?.data ?? sprintsRes?.data ?? []
+                        setSprints(Array.isArray(list) ? list : [])
+                    } catch {
+                        setSprints([])
+                    }
+                } else {
                     setSprints([])
                 }
             } else {
                 setSprintEnabled(false)
+                setAllowManualTimeEntry(true)
+                setRequireWorkDescription(true)
                 setSprints([])
             }
 
@@ -877,6 +887,16 @@ export function TaskDetailDrawer() {
 
     const handleLogHours = async () => {
         if (!logDate || (!logHours && !logMinutes) || !taskDrawerId) return
+
+        if (requireWorkDescription && !logDescription.trim()) {
+            toast({
+                title: "Error",
+                description: "Work description is required by your organization.",
+                variant: "destructive"
+            })
+            return
+        }
+
         setIsLoggingHours(true)
         try {
             const hours = parseFloat(logHours) || 0
@@ -1428,7 +1448,8 @@ export function TaskDetailDrawer() {
 
                                         {/* Time Log Tab */}
                                         <TabsContent value="timelog" className="space-y-4 mt-4">
-                                            <Dialog open={isLogDialogOpen} onOpenChange={setIsLogDialogOpen}>
+                                            {allowManualTimeEntry ? (
+                                                <Dialog open={isLogDialogOpen} onOpenChange={setIsLogDialogOpen}>
                                                 <DialogTrigger asChild>
                                                     <Button
                                                         variant="outline"
@@ -1495,7 +1516,7 @@ export function TaskDetailDrawer() {
                                                             </div>
                                                         </div>
                                                         <div className="space-y-2">
-                                                            <Label>Description</Label>
+                                                            <Label>Description {requireWorkDescription && <span className="text-red-500">*</span>}</Label>
                                                             <Textarea
                                                                 placeholder="What did you work on?"
                                                                 value={logDescription}
@@ -1521,6 +1542,20 @@ export function TaskDetailDrawer() {
                                                     </div>
                                                 </DialogContent>
                                             </Dialog>
+                                            ) : (
+                                                <div className="relative overflow-hidden rounded-2xl border border-amber-100/50 bg-gradient-to-br from-amber-50/80 via-white to-orange-50/40 p-8 flex flex-col items-center text-center shadow-sm">
+                                                    <div className="relative mb-5">
+                                                        <div className="absolute inset-0 bg-amber-200/50 rounded-2xl blur-xl animate-pulse"></div>
+                                                        <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-b from-white to-amber-50/80 border border-amber-100 flex items-center justify-center shadow-sm ring-4 ring-white">
+                                                            <Clock className="w-6 h-6 text-amber-600" />
+                                                        </div>
+                                                    </div>
+                                                    <h3 className="text-[15px] font-bold text-amber-900 mb-2 tracking-tight">Time Logging Restricted</h3>
+                                                    <p className="text-[13px] text-amber-700/80 max-w-[280px] leading-relaxed font-medium">
+                                                        Manual time entry has been disabled by your organization administrators.
+                                                    </p>
+                                                </div>
+                                            )}
 
                                             {/* Log entries */}
                                             <div className="space-y-3">
@@ -1532,24 +1567,26 @@ export function TaskDetailDrawer() {
                                                                 <span className="text-sm font-medium">{formatHoursMinutes(log.hours)}</span>
                                                                 <div className="flex items-center gap-2">
                                                                     <span className="text-xs text-gray-500">{formatDate(log.date)}</span>
-                                                                    <div className="flex items-center gap-1">
-                                                                        <Button
-                                                                            variant="ghost"
-                                                                            size="icon"
-                                                                            className="h-6 w-6 text-gray-400 hover:text-brand-600"
-                                                                            onClick={() => startEditingLog(log)}
-                                                                        >
-                                                                            <Edit2 className="w-3 h-3" />
-                                                                        </Button>
-                                                                        <Button
-                                                                            variant="ghost"
-                                                                            size="icon"
-                                                                            className="h-6 w-6 text-gray-400 hover:text-red-600"
-                                                                            onClick={() => handleDeleteTimeLog(log.id)}
-                                                                        >
-                                                                            <Trash2 className="w-3 h-3" />
-                                                                        </Button>
-                                                                    </div>
+                                                                    {allowManualTimeEntry && (
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="icon"
+                                                                                className="h-6 w-6 text-gray-400 hover:text-brand-600"
+                                                                                onClick={() => startEditingLog(log)}
+                                                                            >
+                                                                                <Edit2 className="w-3 h-3" />
+                                                                            </Button>
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="icon"
+                                                                                className="h-6 w-6 text-gray-400 hover:text-red-600"
+                                                                                onClick={() => handleDeleteTimeLog(log.id)}
+                                                                            >
+                                                                                <Trash2 className="w-3 h-3" />
+                                                                            </Button>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                             <p className="text-sm text-gray-600 mt-1">{log.description || 'No description'}</p>

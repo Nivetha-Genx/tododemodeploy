@@ -395,7 +395,7 @@ export function CreateTaskModal() {
             } else {
                 const response = await tasksApi.create(payload)
                 const createdTask = response.data?.data || response.data
-                const taskIdentifier = createdTask?.task_id || ''
+                // const taskIdentifier = createdTask?.task_id || ''
                 const taskId = createdTask?.id
 
                 // Upload attachments after task creation
@@ -413,12 +413,12 @@ export function CreateTaskModal() {
                         })
                     }
                 }
-
+                
                 toast({
                     title: 'Success',
                     description: data.parent_id
-                        ? `Subtask ${taskIdentifier} created successfully`
-                        : `Task ${taskIdentifier} created successfully`,
+                        ? `Subtask created successfully`
+                        : `Task created successfully`,
                     variant: 'success',
                 })
 

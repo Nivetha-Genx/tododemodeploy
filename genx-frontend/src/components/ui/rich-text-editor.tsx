@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
+import { Extension } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -12,9 +13,70 @@ import {
     Bold, Italic, Underline as UnderlineIcon, Strikethrough,
     List, ListOrdered, Quote, Code, Heading1, Heading2,
     Undo, Redo, AlignLeft, AlignCenter, AlignRight, AlignJustify,
-    Type, Highlighter, ChevronDown
+    Type, Highlighter, ChevronDown, AArrowUp, AArrowDown
 } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
+
+declare module '@tiptap/core' {
+    interface Commands<ReturnType> {
+        fontSize: {
+            /**
+             * Set the font size
+             */
+            setFontSize: (size: string) => ReturnType;
+            /**
+             * Unset the font size
+             */
+            unsetFontSize: () => ReturnType;
+        };
+    }
+}
+
+export const FontSize = Extension.create({
+    name: 'fontSize',
+    addOptions() {
+        return {
+            types: ['textStyle'],
+        };
+    },
+    addGlobalAttributes() {
+        return [
+            {
+                types: this.options.types,
+                attributes: {
+                    fontSize: {
+                        default: null,
+                        parseHTML: element => element.style.fontSize.replace(/['"]+/g, ''),
+                        renderHTML: attributes => {
+                            if (!attributes.fontSize) {
+                                return {};
+                            }
+                            return {
+                                style: `font-size: ${attributes.fontSize}`,
+                            };
+                        },
+                    },
+                },
+            },
+        ];
+    },
+    addCommands() {
+        return {
+            setFontSize: fontSize => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize })
+                    .run();
+            },
+            unsetFontSize: () => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize: null })
+                    .removeEmptyTextStyle()
+                    .run();
+            },
+        };
+    },
+});
+
 
 const COLORS = [
     { name: 'Gray', value: '#64748b' },
@@ -109,8 +171,26 @@ const ColorPicker = ({
     );
 };
 
+const FONT_SIZES_NUMBERS = [12, 14, 16, 18, 20, 24, 30, 36];
+
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
     if (!editor) return null;
+
+    const handleIncreaseFontSize = () => {
+        const current = editor.getAttributes('textStyle').fontSize;
+        const currentNum = current ? parseInt(current) : 14; // Default prose-sm is 14px
+        const next = FONT_SIZES_NUMBERS.find(s => s > currentNum) || FONT_SIZES_NUMBERS[FONT_SIZES_NUMBERS.length - 1];
+        if (next === 14) editor.chain().focus().unsetFontSize().run();
+        else editor.chain().focus().setFontSize(`${next}px`).run();
+    };
+
+    const handleDecreaseFontSize = () => {
+        const current = editor.getAttributes('textStyle').fontSize;
+        const currentNum = current ? parseInt(current) : 14;
+        const prev = [...FONT_SIZES_NUMBERS].reverse().find(s => s < currentNum) || FONT_SIZES_NUMBERS[0];
+        if (prev === 14) editor.chain().focus().unsetFontSize().run();
+        else editor.chain().focus().setFontSize(`${prev}px`).run();
+    };
 
     return (
         <div className="flex flex-wrap items-center gap-0.5 p-2 border-b border-gray-200 bg-white">
@@ -149,6 +229,26 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 className={cn("p-1.5 rounded-md hover:bg-gray-100 text-gray-700 transition-colors", editor.isActive('heading', { level: 2 }) && "bg-brand-50 text-brand-600")}
             >
                 <Heading2 className="w-4 h-4" />
+            </button>
+            <div className="w-px h-4 bg-gray-300 mx-1" />
+
+            <button 
+                type="button" 
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={handleDecreaseFontSize}
+                className="p-1.5 rounded-md hover:bg-gray-100 text-gray-700 transition-colors"
+                title="Decrease Font Size"
+            >
+                <AArrowDown className="w-4 h-4" />
+            </button>
+            <button 
+                type="button" 
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={handleIncreaseFontSize}
+                className="p-1.5 rounded-md hover:bg-gray-100 text-gray-700 transition-colors"
+                title="Increase Font Size"
+            >
+                <AArrowUp className="w-4 h-4" />
             </button>
             <div className="w-px h-4 bg-gray-300 mx-1" />
 
@@ -296,6 +396,7 @@ export const RichTextEditor = ({
             }),
             Underline,
             TextStyle,
+            FontSize,
             Color,
             Highlight.configure({ multicolor: true }),
             TextAlign.configure({
@@ -310,9 +411,7 @@ export const RichTextEditor = ({
         editorProps: {
             attributes: {
                 class: cn(
-                    "prose prose-sm max-w-none focus:outline-none overflow-y-auto",
-                    "prose-p:my-1 prose-headings:mb-2 prose-headings:mt-4",
-                    "prose-mark:px-1 prose-mark:py-0.5 prose-mark:rounded-md",
+                    "tiptap prose prose-sm max-w-none focus:outline-none overflow-y-auto w-full",
                     isActive ? "px-4 py-3 min-h-[inherit]" : "p-0 min-h-[20px] cursor-text",
                     "[&>.is-editor-empty:first-child]:before:content-[attr(data-placeholder)] [&>.is-editor-empty:first-child]:before:text-gray-400 [&>.is-editor-empty:first-child]:before:float-left [&>.is-editor-empty:first-child]:before:pointer-events-none [&>.is-editor-empty:first-child]:before:h-0"
                 ),
