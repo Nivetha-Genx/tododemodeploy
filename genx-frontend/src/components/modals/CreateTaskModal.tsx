@@ -395,7 +395,7 @@ export function CreateTaskModal() {
             } else {
                 const response = await tasksApi.create(payload)
                 const createdTask = response.data?.data || response.data
-                const taskIdentifier = createdTask?.task_id || ''
+                // const taskIdentifier = createdTask?.task_id || ''
                 const taskId = createdTask?.id
 
                 // Upload attachments after task creation
