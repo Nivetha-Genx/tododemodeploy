@@ -815,6 +815,6 @@ export const getInboxTasks = (userId: string): Task[] => {
 export const priorityConfig: Record<Priority, { label: string; color: string; bgColor: string }> = {
     low: { label: 'Low', color: '#6B7280', bgColor: '#F3F4F6' },
     medium: { label: 'Medium', color: '#3B82F6', bgColor: '#DBEAFE' },
-    high: { label: 'High', color: '#e3373dff', bgColor: '#FEE2E2' },
+    high: { label: 'High', color: '#d97706', bgColor: '#fef3c7' },
     critical: { label: 'Critical', color: '#c72727ff', bgColor: '#FECACA' },
 }
