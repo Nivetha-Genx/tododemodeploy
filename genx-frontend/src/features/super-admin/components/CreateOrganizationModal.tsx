@@ -125,7 +125,10 @@ export function CreateOrganizationModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md sm:max-w-lg p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
+            <DialogContent 
+                className="max-w-md sm:max-w-lg p-0 overflow-hidden rounded-3xl border-none shadow-2xl"
+                closeClassName="right-3 sm:right-4 top-3 sm:top-4 z-[60] bg-white shadow-md border border-slate-100"
+            >
                 {/* Scrollable Container including Header */}
                 <div className="bg-white max-h-[70vh] overflow-y-auto custom-scrollbar">
                     {/* Header - Now scrolls with content */}
@@ -151,7 +154,7 @@ export function CreateOrganizationModal({
                     <div className="px-8 space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div className="sm:col-span-2 space-y-1.5">
-                                <Label htmlFor="name" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization Name</Label>
+                                <Label htmlFor="name" className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Organization Name</Label>
                                 <Input
                                     id="name"
                                     placeholder="e.g. Acme Corporation"
@@ -162,14 +165,14 @@ export function CreateOrganizationModal({
                             </div>
 
                             <div className="sm:col-span-2 space-y-1.5">
-                                <Label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Slug / Identifier</Label>
+                                <Label className="text-xs font-bold text-slate-400 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Slug / Identifier</Label>
                                 <div className="h-10 flex items-center px-4 bg-slate-50 border border-slate-100 rounded-xl text-slate-500 font-mono text-sm font-semibold">
                                     {formData.code || 'auto-generated-id'}
                                 </div>
                             </div>
 
                             <div className="space-y-1.5">
-                                <Label htmlFor="hours" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Work Hours / Day</Label>
+                                <Label htmlFor="hours" className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Work Hours / Day</Label>
                                 <div className="relative">
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <Input
@@ -185,7 +188,7 @@ export function CreateOrganizationModal({
                             </div>
 
                             <div className="space-y-1.5">
-                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Timezone</Label>
+                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Timezone</Label>
                                 <Select value={formData.timezone} onValueChange={(v) => setFormData(prev => ({ ...prev, timezone: v }))}>
                                     <SelectTrigger className="h-10 rounded-xl border-slate-200">
                                         <Globe className="w-4 h-4 mr-2 text-slate-400" />
@@ -202,7 +205,7 @@ export function CreateOrganizationModal({
                             </div>
 
                             <div className="sm:col-span-2 space-y-2.5">
-                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Working Days</Label>
+                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Working Days</Label>
                                 <div className="flex flex-wrap gap-2">
                                     {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                                         <button
@@ -228,7 +231,7 @@ export function CreateOrganizationModal({
                             </div>
 
                             <div className="sm:col-span-2 space-y-2">
-                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Initial Status</Label>
+                                <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Initial Status</Label>
                                 <div className="grid grid-cols-2 gap-3">
                                     <button
                                         type="button"
@@ -270,7 +273,7 @@ export function CreateOrganizationModal({
                                 </h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Admin Name</Label>
+                                        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Admin Name</Label>
                                         <Input
                                             placeholder="Full Name"
                                             value={formData.adminName}
@@ -279,7 +282,7 @@ export function CreateOrganizationModal({
                                         />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Admin Email</Label>
+                                        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Admin Email</Label>
                                         <Input
                                             type="email"
                                             placeholder="email@example.com"
@@ -289,7 +292,7 @@ export function CreateOrganizationModal({
                                         />
                                     </div>
                                     <div className="sm:col-span-2 space-y-1.5">
-                                        <Label className="text-xs font-bold text-brand-600 uppercase tracking-wider">One-Time Password</Label>
+                                        <Label className="text-xs font-bold text-brand-600 uppercase tracking-wider border-l-2 border-brand-500 pl-2">One-Time Password</Label>
                                         <div className="flex gap-2">
                                             <Input
                                                 placeholder="Generate or enter OTP"

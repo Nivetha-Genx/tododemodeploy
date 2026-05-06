@@ -401,7 +401,10 @@ export function OrganizationManagementPage() {
 
             {/* Edit Modal */}
             <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-                <DialogContent className="max-w-md sm:max-w-xl p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
+                <DialogContent 
+                    className="max-w-md sm:max-w-xl p-0 overflow-hidden rounded-3xl border-none shadow-2xl"
+                    closeClassName="right-3 sm:right-4 top-3 sm:top-4 z-[60] bg-white shadow-md border border-slate-100"
+                >
                     {/* Header */}
                     {/* Scrollable Container including Header */}
                     <div className="bg-white max-h-[70vh] overflow-y-auto custom-scrollbar">
@@ -428,7 +431,7 @@ export function OrganizationManagementPage() {
                         <div className="px-8 space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div className="sm:col-span-2 space-y-1.5">
-                                    <Label htmlFor="edit-name" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization Name</Label>
+                                    <Label htmlFor="edit-name" className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Organization Name</Label>
                                     <Input
                                         id="edit-name"
                                         value={formData.name}
@@ -438,14 +441,14 @@ export function OrganizationManagementPage() {
                                 </div>
 
                                 <div className="sm:col-span-2 space-y-1.5">
-                                    <Label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Organization Code (Read-only)</Label>
+                                    <Label className="text-xs font-bold text-slate-400 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Organization Code (Read-only)</Label>
                                     <div className="h-10 flex items-center px-4 bg-slate-50 border border-slate-100 rounded-xl text-slate-500 font-mono text-sm font-semibold">
                                         {formData.code}
                                     </div>
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="edit-hours" className="text-xs font-bold text-slate-500 uppercase tracking-wider">Work Hours / Day</Label>
+                                    <Label htmlFor="edit-hours" className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Work Hours / Day</Label>
                                     <div className="relative">
                                         <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <Input
@@ -461,7 +464,7 @@ export function OrganizationManagementPage() {
                                 </div>
 
                                 <div className="space-y-1.5">
-                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Timezone</Label>
+                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Timezone</Label>
                                     <Select value={formData.timezone} onValueChange={(v) => setFormData({ ...formData, timezone: v })}>
                                         <SelectTrigger className="h-10 rounded-xl border-slate-200">
                                             <Globe className="w-4 h-4 mr-2 text-slate-400" />
@@ -478,7 +481,7 @@ export function OrganizationManagementPage() {
                                 </div>
 
                                 <div className="sm:col-span-2 space-y-2.5">
-                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Working Days</Label>
+                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Working Days</Label>
                                     <div className="flex flex-wrap gap-2">
                                         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                                             <button
@@ -504,7 +507,7 @@ export function OrganizationManagementPage() {
                                 </div>
 
                                 <div className="sm:col-span-2 space-y-2">
-                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Organization Status</Label>
+                                    <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider border-l-2 border-brand-500 pl-2">Organization Status</Label>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
                                             type="button"
@@ -588,7 +591,7 @@ export function OrganizationManagementPage() {
                                         <h4 className="text-sm font-bold uppercase tracking-wider text-slate-800">Add New Administrator</h4>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="space-y-1.5">
-                                                <Label className="text-xs font-bold text-slate-500 px-1">Full Name</Label>
+                                                <Label className="text-xs font-bold text-slate-500 border-l-2 border-brand-500 pl-2">Full Name</Label>
                                                 <Input
                                                     placeholder="John Doe"
                                                     className="h-10 rounded-lg text-sm"
@@ -597,7 +600,7 @@ export function OrganizationManagementPage() {
                                                 />
                                             </div>
                                             <div className="space-y-1.5">
-                                                <Label className="text-xs font-bold text-slate-500 px-1">Email Address</Label>
+                                                <Label className="text-xs font-bold text-slate-500 border-l-2 border-brand-500 pl-2">Email Address</Label>
                                                 <Input
                                                     placeholder="john@example.com"
                                                     className="h-10 rounded-lg text-sm"
@@ -607,7 +610,7 @@ export function OrganizationManagementPage() {
                                             </div>
                                         </div>
                                         <div className="space-y-1.5 sm:col-span-2">
-                                            <Label className="text-xs font-bold text-brand-600 px-1">One-Time Password</Label>
+                                            <Label className="text-xs font-bold text-brand-600 border-l-2 border-brand-500 pl-2">One-Time Password</Label>
                                             <div className="flex gap-2">
                                                 <Input
                                                     placeholder="Enter or generate"

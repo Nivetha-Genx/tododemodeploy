@@ -188,11 +188,11 @@ export function UserManagementPage() {
                                     </div>
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                                    <SelectItem value="all" className="font-bold text-slate-700">All Roles</SelectItem>
-                                    <SelectItem value="super_admin" className="font-bold text-slate-700">Super Admin</SelectItem>
-                                    <SelectItem value="admin" className="font-bold text-slate-700">Admin</SelectItem>
-                                    <SelectItem value="team_lead" className="font-bold text-slate-700">Team Lead</SelectItem>
-                                    <SelectItem value="member" className="font-bold text-slate-700">Member</SelectItem>
+                                    <SelectItem value="all" className="font-semibold text-slate-700">All Roles</SelectItem>
+                                    <SelectItem value="super_admin" className="font-semibold text-slate-700">Super Admin</SelectItem>
+                                    <SelectItem value="admin" className="font-semibold text-slate-700">Admin</SelectItem>
+                                    <SelectItem value="team_lead" className="font-semibold text-slate-700">Team Lead</SelectItem>
+                                    <SelectItem value="member" className="font-semibold text-slate-700">Member</SelectItem>
                                 </SelectContent>
                             </Select>
 
@@ -204,9 +204,9 @@ export function UserManagementPage() {
                                     </div>
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                                    <SelectItem value="all" className="font-bold text-slate-700">All Organizations</SelectItem>
+                                    <SelectItem value="all" className="font-semibold text-slate-700">All Organizations</SelectItem>
                                     {Array.isArray(organizations) && organizations.map((org: any) => (
-                                        <SelectItem key={org.id} value={org.id} className="font-bold text-slate-700">{org.name}</SelectItem>
+                                        <SelectItem key={org.id} value={org.id} className="font-semibold text-slate-700">{org.name}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -249,7 +249,7 @@ export function UserManagementPage() {
                                                         </Avatar>
                                                         <div className="flex flex-col min-w-0">
                                                             <span className="text-sm font-bold text-slate-900 truncate">{user.name}</span>
-                                                            <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+                                                            <span className="text-[12px] font-semibold text-slate-400 flex items-center gap-1">
                                                                 <Mail className="w-3 h-3" /> {user.email}
                                                             </span>
                                                         </div>
@@ -258,15 +258,15 @@ export function UserManagementPage() {
                                                 <TableCell className="px-6 py-4">{getRoleBadge(user.role)}</TableCell>
                                                 <TableCell className="px-6 py-4">
                                                     {user.organization ? (
-                                                        <div className="flex items-center gap-2 text-sm font-bold text-slate-600">
+                                                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-600">
                                                             <Building2 className="w-3.5 h-3.5 text-slate-400" />
                                                             {user.organization.name}
                                                         </div>
                                                     ) : (
-                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Global System</span>
+                                                        <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-tight">Global System</span>
                                                     )}
                                                 </TableCell>
-                                                <TableCell className="px-6 py-4 text-sm font-bold text-slate-500">
+                                                <TableCell className="px-6 py-4 text-sm font-semibold text-slate-500">
                                                     {new Date(user.created_at).toLocaleDateString()}
                                                 </TableCell>
                                                 <TableCell className="px-6 py-4 text-right">
@@ -279,11 +279,11 @@ export function UserManagementPage() {
                                                         <DropdownMenuContent align="end" className="rounded-xl border-slate-100 shadow-xl w-48">
                                                             <DropdownMenuLabel className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 py-2">User Actions</DropdownMenuLabel>
                                                             <DropdownMenuSeparator className="bg-slate-50" />
-                                                            <DropdownMenuItem onClick={() => handleResetPassword(user.id)} className="font-bold text-slate-700 py-2.5 cursor-pointer">
+                                                            <DropdownMenuItem onClick={() => handleResetPassword(user.id)} className="font-semibold text-slate-700 py-2.5 cursor-pointer">
                                                                 <Key className="w-4 h-4 mr-2 text-slate-400" /> Reset Password
                                                             </DropdownMenuItem>
-                                                            <DropdownMenuItem disabled className="font-bold text-slate-300 py-2.5">
-                                                                <Shield className="w-4 h-4 mr-2 text-slate-200" /> Manage Roles
+                                                            <DropdownMenuItem disabled className="font-bold text-slate-700 py-2.5">
+                                                                <Shield className="w-4 h-4 mr-2 text-slate-300" /> Manage Roles
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
@@ -308,7 +308,7 @@ export function UserManagementPage() {
                     {/* Pagination */}
                     {pagination.last_page > 1 && (
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 border-t border-slate-50">
-                            <p className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest">
+                            <p className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest">
                                 Page {pagination.current_page} of {pagination.last_page} • {pagination.total} total
                             </p>
                             <div className="flex gap-2 w-full sm:w-auto">
