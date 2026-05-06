@@ -383,11 +383,11 @@ export function CreateTaskModal() {
                 const taskIdentifier = updatedTask?.task_id || ''
 
                 toast({
-                    title: 'Success',
+                    title: 'Updated',
                     description: taskIdentifier
                         ? `Task ${taskIdentifier} updated successfully`
                         : 'Task updated successfully',
-                    variant: 'success',
+                    variant: 'info',
                 })
 
                 window.dispatchEvent(new CustomEvent('task-updated', { detail: { taskId: modalData.taskId } }))
@@ -395,7 +395,7 @@ export function CreateTaskModal() {
             } else {
                 const response = await tasksApi.create(payload)
                 const createdTask = response.data?.data || response.data
-                // const taskIdentifier = createdTask?.task_id || ''
+                const taskIdentifier = createdTask?.task_id || ''
                 const taskId = createdTask?.id
 
                 // Upload attachments after task creation
@@ -413,7 +413,7 @@ export function CreateTaskModal() {
                         })
                     }
                 }
-                
+
                 toast({
                     title: 'Success',
                     description: data.parent_id

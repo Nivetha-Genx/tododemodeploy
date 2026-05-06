@@ -109,9 +109,9 @@ export function RoleDialog({ open, onOpenChange, role, onSuccess }: RoleDialogPr
 
             if (response.success) {
                 toast({
-                    title: 'Success',
+                    title: role ? 'Updated' : 'Success',
                     description: `Role ${role ? 'updated' : 'created'} successfully`,
-                    variant: 'success',
+                    variant: role ? 'info' : 'success',
                 })
                 onSuccess()
                 onOpenChange(false)

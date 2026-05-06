@@ -111,8 +111,7 @@ import { GlobalToasts } from '@/components/GlobalToasts'
 import { useWebSockets } from '@/hooks/useWebSockets'
 import { useAuthRefresh } from '@/hooks/useAuthRefresh'
 import { ChangePasswordPage } from '@/features/auth'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Toaster } from 'react-hot-toast'
 import { useEffect } from 'react'
 import { FloatingTimer } from '@/components/ui/FloatingTimer'
 
@@ -225,18 +224,19 @@ function App() {
 
             {/* Feedback System */}
             <GlobalToasts />
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+            <div 
+                onPointerDown={(e) => e.stopPropagation()} 
+                onMouseDown={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
+            >
+                <Toaster
+                    position="top-right"
+                    gutter={12}
+                    toastOptions={{
+                        duration: 5000,
+                    }}
+                />
+            </div>
         </TooltipProvider>
     )
 }

@@ -194,9 +194,9 @@ export function TeamPage() {
             setSelectedUser(null)
             fetchMembers(currentPage)
             toast({
-                title: 'Success',
+                title: 'Updated',
                 description: 'Member updated successfully',
-                variant: 'success',
+                variant: 'info',
             })
         } catch (error: any) {
             console.error('Failed to update member:', error)
@@ -217,9 +217,9 @@ export function TeamPage() {
             setSelectedUser(null)
             setResetPasswordValue('')
             toast({
-                title: 'Success',
+                title: 'Updated',
                 description: response.message || 'Password reset successfully. Email sent to user.',
-                variant: 'success',
+                variant: 'info',
             })
         } catch (error: any) {
             console.error('Failed to reset password:', error)

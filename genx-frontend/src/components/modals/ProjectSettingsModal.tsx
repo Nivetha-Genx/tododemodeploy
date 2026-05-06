@@ -100,9 +100,9 @@ export function ProjectSettingsModal() {
                 image: image,
             })
             toast({
-                title: 'Success',
+                title: 'Updated',
                 description: 'Project updated successfully',
-                variant: 'success',
+                variant: 'info',
             })
             closeModal()
             // Refresh the page to show updated data
@@ -128,7 +128,7 @@ export function ProjectSettingsModal() {
             toast({
                 title: 'Member removed',
                 description: 'The member has been removed from this project.',
-                variant: 'success',
+                variant: 'info',
             })
             // Update local state
             setProject(prev => {

@@ -122,8 +122,8 @@ export function NotificationPage() {
                             className="gap-1.5 sm:gap-2 bg-gray-100/80 hover:bg-brand-100 hover:text-brand-600 hover:border-brand-300 text-gray-600 font-bold border border-brand-200 transition-all rounded-full px-2.5 sm:px-4 h-8 shadow-sm text-[10px] uppercase tracking-wider"
                         >
                             <Check className="h-3.5 w-3.5" />
-                            <span className="hidden xs:inline sm:inline">Read All</span>
-                            <span className="xs:hidden">Read</span>
+                            <span className="hidden sm:inline">Read All</span>
+                            <span className="sm:hidden">Read</span>
                         </Button>
                         <Button
                             variant="outline"
@@ -133,8 +133,8 @@ export function NotificationPage() {
                             className="gap-1.5 sm:gap-2 border-gray-200 hover:bg-red-50 hover:text-red-600 hover:border-red-300 text-gray-500 font-bold transition-all rounded-full px-2.5 sm:px-4 h-8 shadow-sm text-[10px] uppercase tracking-wider"
                         >
                             <Trash2 className="h-3.5 w-3.5" />
-                            <span className="hidden xs:inline sm:inline">Clear All</span>
-                            <span className="xs:hidden">Clear</span>
+                            <span className="hidden sm:inline">Clear All</span>
+                            <span className="sm:hidden">Clear</span>
                         </Button>
                     </div>
                 </div>

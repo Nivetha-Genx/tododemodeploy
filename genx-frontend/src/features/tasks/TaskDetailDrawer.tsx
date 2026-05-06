@@ -664,7 +664,7 @@ export function TaskDetailDrawer() {
                         description: showCompletedToast
                             ? `Task marked as done`
                             : `Task updated successfully`,
-                        variant: isNowCompleted ? 'success' : 'info',
+                        variant: showCompletedToast ? 'success' : 'info',
                     })
                 }
                 window.dispatchEvent(new CustomEvent('task-updated', { detail: { taskId: taskDrawerId } }))
@@ -1035,7 +1035,7 @@ export function TaskDetailDrawer() {
         isClosingRef.current = true
 
         const drawerTaskId = taskDrawerId
-        const toastTaskId = task?.taskId
+        // const toastTaskId = task?.taskId
 
         // Close immediately for snappy UX.
         closeTaskDrawer()
@@ -1075,9 +1075,9 @@ export function TaskDetailDrawer() {
                 toast({
                     title: showCompletedToast ? 'Task completed! 🎉' : 'Updated',
                     description: showCompletedToast
-                        ? `${toastTaskId || 'Task'} marked as done`
-                        : `${toastTaskId || 'Task'} updated successfully`,
-                    variant: isNowCompleted ? 'success' : 'info',
+                        ? 'Task marked as done'
+                        : 'Task updated successfully',
+                    variant: showCompletedToast ? 'success' : 'info',
                 })
             } catch (error) {
                 console.error('Failed to auto-save on close:', error)
@@ -1315,7 +1315,12 @@ export function TaskDetailDrawer() {
                                                         }
                                                     }}
                                                     isActive={isDescriptionEditorActive}
-                                                    onActiveChange={setIsDescriptionEditorActive}
+                                                    onActiveChange={(active) => {
+                                                        setIsDescriptionEditorActive(active)
+                                                        if (!active) {
+                                                            handleAutoSave()
+                                                        }
+                                                    }}
                                                     minHeight="60px"
                                                     maxHeight="400px"
                                                 />
@@ -2592,7 +2597,12 @@ export function TaskDetailDrawer() {
                                                     value={field.value || ''}
                                                     onChange={field.onChange}
                                                     isActive={isDescriptionEditorActive}
-                                                    onActiveChange={setIsDescriptionEditorActive}
+                                                    onActiveChange={(active) => {
+                                                        setIsDescriptionEditorActive(active)
+                                                        if (!active) {
+                                                            handleAutoSave()
+                                                        }
+                                                    }}
                                                     minHeight="40px"
                                                     maxHeight="200px"
                                                 />

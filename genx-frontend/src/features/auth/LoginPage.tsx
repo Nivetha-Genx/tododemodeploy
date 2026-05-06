@@ -55,7 +55,7 @@ export function LoginPage() {
         show({
             type: 'success',
             title: 'Authentication Successful',
-            message: `Welcome back, ${user.name}. You are now logged in.`
+            message: `Welcome back, ${user.name}`
         })
 
         if (mustChange) {

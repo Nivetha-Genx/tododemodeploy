@@ -235,6 +235,36 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes leave {
+    from {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9) translateY(-10px);
+    }
+  }
+
+  .animate-enter {
+    animation: enter 0.3s ease-out forwards;
+  }
+
+  .animate-leave {
+    animation: leave 0.25s ease-in forwards;
+  }
 }
 
 /* Remove number input spinners */
@@ -290,61 +320,7 @@
   display: none
 }
 
-/* React Toastify overrides */
-.Toastify__toast-container {
-  padding: 16px;
-  width: fit-content !important;
-  max-width: 800px !important;
-  pointer-events: none;
-}
 
-.Toastify__toast-container * {
-  pointer-events: auto;
-}
-
-.Toastify__toast {
-  width: fit-content !important;
-  min-width: 350px !important;
-  max-width: 750px !important;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  padding: 18px 24px !important;
-  border: 1px solid #e5e7eb;
-  min-height: 72px;
-  pointer-events: auto;
-}
-
-.Toastify__toast-body {
-  width: 100% !important;
-  padding: 0;
-  margin: 0;
-}
-
-.Toastify__progress-bar {
-  height: 3px;
-  bottom: 0;
-}
-
-.Toastify__progress-bar--success {
-  background: #09953c !important;
-}
-
-.Toastify__progress-bar--error {
-  background: #eb3535 !important;
-  /* brighter red for white bg */
-}
-
-/* Ensure all variants stay white background */
-.Toastify__toast--success,
-.Toastify__toast--error,
-.Toastify__toast--warning,
-.Toastify__toast--info,
-.Toastify__toast--default {
-  background: #ffffff !important;
-}
 
 /* 
  * UNIFIED QUILL STYLES

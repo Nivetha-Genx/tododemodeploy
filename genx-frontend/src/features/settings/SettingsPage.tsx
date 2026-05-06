@@ -105,9 +105,9 @@ export function SettingsPage() {
                 const updatedUser = mapBackendUserToFrontend(response.data.user)
                 setUser(updatedUser)
                 toast({
-                    title: 'Success',
+                    title: 'Updated',
                     description: 'Profile updated successfully',
-                    variant: 'success',
+                    variant: 'info',
                 })
             }
         } catch (error) {
@@ -160,9 +160,9 @@ export function SettingsPage() {
 
             if (response.success) {
                 toast({
-                    title: 'Success',
+                    title: 'Updated',
                     description: 'Password updated successfully',
-                    variant: 'success',
+                    variant: 'info',
                 })
                 // Clear password fields
                 setCurrentPassword('')
@@ -288,9 +288,9 @@ export function SettingsPage() {
                 setCropDialogOpen(false)
                 setImageToCrop(null)
                 toast({
-                    title: 'Success',
+                    title: 'Updated',
                     description: 'Avatar updated successfully',
-                    variant: 'success',
+                    variant: 'info',
                 })
             }
         } catch (error: any) {
